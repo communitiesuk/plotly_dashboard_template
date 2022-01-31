@@ -17,6 +17,7 @@ import pandas as pd
 
 
 def template_dashboard(
+    test = None,
     example_dropdown = 'option 1'
 ):
     """Create and return the dashboard layout for display in the application."""
