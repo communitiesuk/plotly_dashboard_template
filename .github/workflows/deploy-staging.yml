@@ -1,0 +1,25 @@
+name: deploy to staging
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  format:
+    name: 'Check code formatting'
+    runs-on: ubuntu-20.04
+    defaults:
+      run:
+        shell: bash -l {0}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: conda-incubator/setup-miniconda@v2
+        withno:
+          auto-update-conda: true
+          activate-environment: <dashboard name> # Update name to match dashboard.
+          environment-file: environment.workspace.yml
+      - name: Run formater
+        run: black --check ./
+
+
+
