@@ -52,7 +52,7 @@ def display_page(pathname, query_string):
             "/": {
                 "protective_marking": "OFFICIAL",
                 "dashboard": lambda: template_dashboard(
-                    **selected_filters(query_string),
+                    test = 'test', **selected_filters(query_string),
                 ),
             }
         }
