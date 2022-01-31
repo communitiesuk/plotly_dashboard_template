@@ -128,7 +128,7 @@ Post a message in the General channel on the Data Dashboard Microsoft Teams team
 
 ### Production
 
-1.  From VS Code navigate to File -> Open Folder and select `Q:\AnalyticalDashboards\data_dashboards`
+1.  From VS Code navigate to File -> Open Folder and select `Q:\AnalyticalDashboards\<your dashboard name>` 
 1.  Pull the latest code from GitHub into that directory.
 1.  Switch back to your local development environment.
 1.  Send an email to DAP-Support@communities.gov.uk from your Communities email address, asking for the dashboard to be updated.  Sample message:
@@ -138,7 +138,7 @@ Dear DAP support,
 Please could you update the Analytical Data Dashboard at
 https://housing.pydash.infra.communities.gov.uk/
 
-With the code in Q:\AnalyticalDashboards\data_dashboards
+With the code in Q:\AnalyticalDashboards\<your dashboard name>
 
 Many thanks,
 Adrian
