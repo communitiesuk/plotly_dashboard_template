@@ -1,5 +1,7 @@
 # dashboard-template
-A template repository for creating data dashboards with Plotly
+A template repository for creating data dashboards with Plotly.
+
+**This is a template, and should not be overwritten.** There are instructions below on how to set up your own development repository.
 
 ## Getting started
 
@@ -7,6 +9,10 @@ A template repository for creating data dashboards with Plotly
 
 1.  Sign up for a GitHub account
 1.  Ask the existing team members within the Analytical Dashboards Microsoft Teams to give access to the repository. Make sure to accept the invitation.
+
+### How to use this template
+
+1. You will need to create a new repository to house your dashboard. **Do not overwrite this template repository.** Instructions on forking the repository can be found [here](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template).
 
 **This project will be run in the DAP environment.**
 
