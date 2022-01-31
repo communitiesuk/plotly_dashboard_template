@@ -169,3 +169,10 @@ barchart = bar_chart(df, "Category", "Value", color="Category")
 barchart_dash = dcc.Graph(id="example bar chart", responsive=True, figure=barchart)
 dashboard_content = [card(barchart_dash)]
 ```
+
+## Deploying to Gov Paas
+1.  Update required fields in deploy-staging.yml indicated by &lt;&gt; and a comment.
+1.  Set up dedicated accounts - do not use your normal credentials whilst deploying with GitHub actions. Find out more about [configuring your CI tool accounts](https://docs.cloud.service.gov.uk/using_ci.html#configure-your-ci-tool-accounts) in GOV.UK PaaS.
+1.  Store credentials in GitHub Actions - You should store your sensitive credentials in GitHub Actions. Store the username as GOV_PAAS_USER and the password as GOV_PAAS_PASS.
+
+More information on secrets can be found [here](https://docs.github.com/en/actions/security-guides/encrypted-secrets)
