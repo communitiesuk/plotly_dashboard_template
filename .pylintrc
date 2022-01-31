@@ -1,0 +1,5 @@
+[MASTER]
+init-hook='import sys; sys.path.append(".")'
+good-names=df
+disable=duplicate-code
+max-args = 7

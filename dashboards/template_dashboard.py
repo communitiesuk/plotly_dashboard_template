@@ -16,7 +16,9 @@ from dash import dcc
 import pandas as pd
 
 
-def template_dashboard():
+def template_dashboard(
+    example_dropdown = 'option 1'
+):
     """Create and return the dashboard layout for display in the application."""
 
     data = {
@@ -42,26 +44,20 @@ def template_dashboard():
                 filter_panel(
                     [
                         dropdown(
-                            label="Metric",
-                            element_id="metric",
+                            label="Example dropdown",
+                            element_id="example_dropdown",
                             options=[
                                 {"label": metric, "value": metric}
                                 for metric in {"option 1", "option 2"}
                             ],
-                            selected="option 2",
+                            selected=example_dropdown,
                             optionHeight=50,
                         ),
-                        hidden_filter(html_id="comparison_local_authority"),
-                        hidden_filter(html_id="comparison_metric"),
                     ],
                 ),
                 format_visualisation_title("Visualisation title"),
-                format_visualisation_commentary("Calculated commentary"),
+                format_visualisation_commentary(f"{example_dropdown} selected."),
                 row_component(dashboard_content),
             ],
         ),
     ]
-
-
-# ToDo: Add a graph.
-# ToDo: hook up dropdown with graph.
