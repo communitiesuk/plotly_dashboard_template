@@ -14,6 +14,7 @@ from dashboards.error_page import error_page
 from dashboards.template_dashboard import template_dashboard
 from lib.url import dict_to_query_string
 
+
 app.title = "Template Dashboard"
 
 app.layout = html.Div(
