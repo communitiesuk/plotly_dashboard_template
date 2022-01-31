@@ -27,7 +27,7 @@ app.layout = html.Div(
                         dcc.Location(id="url", refresh=False),
                         message_banner(
                             category="UPDATE",
-                            message="This is an example update banner"
+                            message="This is an example update banner",
                         ),
                         html.Div(id="page-content"),
                     ],
@@ -73,14 +73,7 @@ def display_page(pathname, query_string):
     return page_not_found
 
 
-@app.callback(
-    Output("url", "search"),
-    Input("metric", "value")
-)
-def update_url(
-    metric
-):
+@app.callback(Output("url", "search"), Input("metric", "value"))
+def update_url(metric):
     """When the user changes any filter panel elements, update the URL query parameters"""
-    return dict_to_query_string(
-        metric=metric
-    )
+    return dict_to_query_string(metric=metric)
