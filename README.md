@@ -116,7 +116,7 @@ echo "Remember to run Black and Pylint before pushing to GitHub"
 1. Open the "New Query" from the Toolbar, paste in the query that corresponds to your table and execute.
 1. Right click on the results set and select "Save Results as" to an appropriate place in the `data/` directory.
 
-INSERT HERE SQL CHEAT SHEET 
+SQL cheat sheet available [here](https://learnsql.com/blog/sql-basics-cheat-sheet/)
 
 For more information on accessing CDS you can find some more [detailed instructions][cds-documentation] from Mark Foster.
 
