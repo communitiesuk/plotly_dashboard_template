@@ -126,8 +126,6 @@ Code pushed to GitHub on the `main` branch will be automatically deployed to a s
 
 > https://&lt;name in manifest.yml&gt;.london.cloudapps.digital/
 
-Post a message in the General channel on the Data Dashboard Microsoft Teams team to get the username and password.
-
 ### Production
 
 1.  From VS Code navigate to File -> Open Folder and select `Q:\AnalyticalDashboards\<your dashboard name>` 
@@ -178,7 +176,7 @@ dashboard_content = [card(barchart_dash)]
     Find out more about [configuring your CI tool accounts](https://docs.cloud.service.gov.uk/using_ci.html#configure-your-ci-tool-accounts) in GOV.UK PaaS.
 1.  [Store the newly created credentials in GitHub Actions][store_creds] - You should store your sensitive credentials in GitHub Actions.
     Store the username with secret name `GOV_PAAS_USER` and the password with secret name `GOV_PAAS_PASS`.
-1.  OPTIONAL: Create a shared username/password for accessing the dashboard.
+1.  OPTIONAL: Create a shared username/password for accessing the hosted dashboard.
     This can be useful if you want to prevent curious individuals from accessing your dashboard while in development, but does not give any security against malicious actors.
     You will need to have access to the `cf` command installed and configured, which currently isn't the case within the DAP.
     GOV.UK PaaS provide guidance on how to do this under the title [Example: Route service to add username and password authentication][basic_auth].
