@@ -75,7 +75,7 @@ jobs:
       - name: Log in to Gov PaaS
         run: cf login -a api.london.cloud.service.gov.uk -u ${{ secrets.GOV_PAAS_USER }} -p ${{ secrets.GOV_PAAS_PASS }} # See https://docs.cloud.service.gov.uk/using_ci.html#configure-your-ci-tool-accounts
       - name: Set Gov PaaS org and space
-        run: cf target -o <your environment name> -s sandbox # Update name to match Gov PaaS environment.
+        run: cf target -o <organisation name> -s <space name> # Update name to match Gov PaaS organisation.
       - name: Deploy
         run: cf push <your dashboard name> --strategy rolling # Update name to match dashboard.
 
