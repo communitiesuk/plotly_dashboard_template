@@ -1,0 +1,22 @@
+name: data_dashboards
+channels:
+  - conda-forge
+  - nodefaults
+dependencies:
+  - python=3.9
+  # latest version of plotly can be found at https://github.com/plotly/plotly.py/releases .
+  # Version is hardcoded to ensure uniformity no matter the platform.
+  - plotly=5.5.0
+  - pandas=1.3
+  - dash=2.0
+  - pytest=6.2
+  - pylint=2.12
+  - black=21.12b0
+  - black-jupyter=21.12b0
+  - pip=21.3.1
+  - pyodbc=4.0.32
+  - numpy=1.22.1
+  - pip:
+      - dash[testing]
+      - chromedriver-binary-auto
+      - gunicorn
