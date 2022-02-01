@@ -5,6 +5,7 @@ import logging
 import os
 
 from dash import dcc, html, Input, Output
+import pandas as pd
 
 from app import app
 from components.banners import message_banner
@@ -12,8 +13,14 @@ from components.dashboard_container import dashboard_container
 from components.header import header
 from dashboards.error_page import error_page
 from dashboards.template_dashboard import template_dashboard
-from lib.url import dict_to_query_string
+from lib.url import selected_filters, dict_to_query_string
 
+
+data = {
+    "Category": ["Category 1", "Category 2", "Category 3"],
+    "Value": [30, 15, 20],
+}
+df = pd.DataFrame(data)
 
 app.title = "Template Dashboard"
 
@@ -27,7 +34,7 @@ app.layout = html.Div(
                         dcc.Location(id="url", refresh=False),
                         message_banner(
                             category="UPDATE",
-                            message="This is an example update banner"
+                            message="This is an example update banner",
                         ),
                         html.Div(id="page-content"),
                     ],
@@ -52,7 +59,9 @@ def display_page(pathname, query_string):
         paths = {
             "/": {
                 "protective_marking": "OFFICIAL",
-                "dashboard": lambda: template_dashboard(),
+                "dashboard": lambda: template_dashboard(
+                    df, **selected_filters(query_string)
+                ),
             }
         }
 
@@ -73,14 +82,7 @@ def display_page(pathname, query_string):
     return page_not_found
 
 
-@app.callback(
-    Output("url", "search"),
-    Input("metric", "value")
-)
-def update_url(
-    metric
-):
+@app.callback(Output("url", "search"), Input("example_dropdown", "value"))
+def update_url(example_dropdown):
     """When the user changes any filter panel elements, update the URL query parameters"""
-    return dict_to_query_string(
-        metric=metric
-    )
+    return dict_to_query_string(example_dropdown=example_dropdown)

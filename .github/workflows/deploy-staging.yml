@@ -1,0 +1,81 @@
+name: deploy to staging
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  format:
+    name: 'Check code formatting'
+    runs-on: ubuntu-20.04
+    defaults:
+      run:
+        shell: bash -l {0}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: conda-incubator/setup-miniconda@v2
+        with:
+          auto-update-conda: true
+          activate-environment: <dashboard name> # Update name to match dashboard.
+          environment-file: environment.yml
+      - name: Run formater
+        run: black --check ./
+
+  lint:
+    name: 'Check code for linting errors'
+    runs-on: ubuntu-20.04
+    defaults:
+      run:
+        shell: bash -l {0}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: conda-incubator/setup-miniconda@v2
+        with:
+          auto-update-conda: true
+          activate-environment: <dashboard name> # Update name to match dashboard.
+          environment-file: environment.yml
+      - name: Run linter
+        run: pylint $(pwd)
+
+  test:
+    name: 'Running tests'
+    runs-on: ubuntu-20.04
+    defaults:
+      run:
+        shell: bash -l {0}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: conda-incubator/setup-miniconda@v2
+        with:
+          auto-update-conda: true
+          activate-environment: <dashboard name> # Update name to match dashboard.
+          environment-file: environment.yml
+      - name: Execute tests
+        run: python -u -m pytest --headless tests
+
+  deploy:
+    name: 'Deploy to Gov PaaS'
+    runs-on: ubuntu-20.04
+    concurrency: staging_environment
+    needs: [test]
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Download Cloud Foundry public key
+        shell: bash
+        run: wget -q -O - https://packages.cloudfoundry.org/debian/cli.cloudfoundry.org.key | sudo apt-key add -
+      - name: Register Cloud Foundry public apt repo
+        shell: bash
+        run: echo "deb https://packages.cloudfoundry.org/debian stable main" | sudo tee /etc/apt/sources.list.d/cloudfoundry-cli.list
+      - name: Install Cloud Foundry CLI
+        shell: bash
+        run: sudo apt-get update && sudo apt-get install cf7-cli
+      - shell: bash
+        run: echo "Using Cloud Foundry CLI version " && cf -v
+      - name: Log in to Gov PaaS
+        run: cf login -a api.london.cloud.service.gov.uk -u ${{ secrets.GOV_PAAS_USER }} -p ${{ secrets.GOV_PAAS_PASS }} # See https://docs.cloud.service.gov.uk/using_ci.html#configure-your-ci-tool-accounts
+      - name: Set Gov PaaS org and space
+        run: cf target -o <organisation name> -s <space name> # Update name to match Gov PaaS organisation.
+      - name: Deploy
+        run: cf push <your dashboard name> --strategy rolling # Update name to match dashboard.
+
