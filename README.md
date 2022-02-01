@@ -22,6 +22,14 @@ A template repository for creating data dashboards with Plotly.
 1.  Set your default browser to Google Chrome - [instructions][Make Chrome your default browser].
 1.  Open Anaconda Navigator via Start menu. **Note:** Anaconda asks if you want to update it, but it won't work.
 1.  Install and launch VS Code (Visual Studio Code) from within the Anaconda Navigator. **Note** after installing VS Code, a Getting Started walkthrough is shown. Click the back button to escape.
+1.  Navigate to the `Git CMD` from the start menu and execute the below commands. Once you have executed the commands close `Git CMD`.
+
+    **Note: You need to change the name/email to match your own and you need to include the quotation marks. You may like to copy the commands into a word document to edit them.**
+
+```shell
+git config --global user.name "Your Name"
+git config --global user.email "Your.Name@levellingup.gov.uk"
+``` 
 
 [Make Chrome your default browser]: https://support.google.com/chrome/answer/95417?hl=en-GB&co=GENIE.Platform%3DDesktop
 
@@ -35,14 +43,6 @@ A template repository for creating data dashboards with Plotly.
 1.  This pulls the code from GitHub to your local folder.
     Click "Open folder" option, and navigate to your newly created folder containing the repository code.
 1.  Select "Yes, I trust the authors".
-1.  While that is downloading, navigate to the `Git CMD` from the start menu and execute the below commands. Once you have executed the commands close `Git CMD`.
-
-    **Note: You need to change the name/email to match your own and you need to include the quotation marks. You may like to copy the commands into a word document to edit them.**
-
-```shell
-git config --global user.name "Your Name"
-git config --global user.email "Your.Name@communities.gov.uk"
-``` 
 
 [explorer_window]: https://code.visualstudio.com/docs/getstarted/userinterface#_explorer
 
@@ -116,7 +116,7 @@ echo "Remember to run Black and Pylint before pushing to GitHub"
 1. Open the "New Query" from the Toolbar, paste in the query that corresponds to your table and execute.
 1. Right click on the results set and select "Save Results as" to an appropriate place in the `data/` directory.
 
-INSERT HERE SQL CHEAT SHEET 
+SQL cheat sheet available [here](https://learnsql.com/blog/sql-basics-cheat-sheet/)
 
 For more information on accessing CDS you can find some more [detailed instructions][cds-documentation] from Mark Foster.
 
@@ -127,9 +127,9 @@ For more information on accessing CDS you can find some more [detailed instructi
 
 ### Staging
 
-Code pushed to GitHub on the `main` branch is automatically deployed to a staging environment hosted in [Gov PaaS](https://www.cloud.service.gov.uk/), accessible at the link below:
+Code pushed to GitHub on the `main` branch will be automatically deployed to a staging environment once you've set deployment to [Gov PaaS](https://www.cloud.service.gov.uk/) and the GitHub Actions (see below), and will be accessible at the following link:
 
-> [https://data_dashboards.london.cloudapps.digital/](https://data_dashboards.london.cloudapps.digital/)
+> https://&lt;name in manifest.yml&gt;.london.cloudapps.digital/
 
 Post a message in the General channel on the Data Dashboard Microsoft Teams team to get the username and password.
 
