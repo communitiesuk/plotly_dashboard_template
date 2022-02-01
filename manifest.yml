@@ -1,6 +1,6 @@
 ---
 applications:
-  - name: APP_NAME # update to match name of application
+  - name: <dashboard name> # update to match name of application
     memory: 2GB
     disk_quota: 3GB
     command: gunicorn run:server
