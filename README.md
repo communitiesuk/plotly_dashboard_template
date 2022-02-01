@@ -1,4 +1,4 @@
-# dashboard-template
+# Plotly dashboard template
 A template repository for creating data dashboards with Plotly.
 
 **This is a template, and should not be overwritten.** There are instructions below on how to set up your own development repository.
