@@ -13,20 +13,13 @@ from lib.govuk_colors import GovUKColors
 from components.card import card
 from dash import dcc
 
-import pandas as pd
 
 
-def template_dashboard(
-    test = None,
-    example_dropdown = 'option 1'
-):
+
+def template_dashboard(df, example_dropdown="option 1"):
     """Create and return the dashboard layout for display in the application."""
 
-    data = {
-        "Category": ["Category 1", "Category 2", "Category 3"],
-        "Value": [30, 15, 20],
-    }
-    df = pd.DataFrame(data)
+
     barchart = bar_chart(df, "Category", "Value", color="Category")
     barchart_dash = dcc.Graph(id="example bar chart", responsive=True, figure=barchart)
     dashboard_content = [card(barchart_dash)]

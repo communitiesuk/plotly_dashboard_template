@@ -5,6 +5,7 @@ import logging
 import os
 
 from dash import dcc, html, Input, Output
+import pandas as pd
 
 from app import app
 from components.banners import message_banner
@@ -13,6 +14,13 @@ from components.header import header
 from dashboards.error_page import error_page
 from dashboards.template_dashboard import template_dashboard
 from lib.url import selected_filters, dict_to_query_string
+
+
+data = {
+        "Category": ["Category 1", "Category 2", "Category 3"],
+        "Value": [30, 15, 20],
+    }
+df = pd.DataFrame(data)
 
 app.title = "Template Dashboard"
 
@@ -52,7 +60,8 @@ def display_page(pathname, query_string):
             "/": {
                 "protective_marking": "OFFICIAL",
                 "dashboard": lambda: template_dashboard(
-                    test = 'test', **selected_filters(query_string),
+                    df,
+                    **selected_filters(query_string)
                 ),
             }
         }
