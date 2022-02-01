@@ -5,11 +5,6 @@ A template repository for creating data dashboards with Plotly.
 
 ## Getting started
 
-### Sign up for GitHub
-
-1.  Sign up for a GitHub account
-1.  Ask the existing team members within the Analytical Dashboards Microsoft Teams to give access to the repository. Make sure to accept the invitation.
-
 ### How to use this template
 
 1. Choose a name for the repository to house your code. Please note this name should conform to [snake case (e.g. example_data_dashboard)](https://betterprogramming.pub/string-case-styles-camel-pascal-snake-and-kebab-case-981407998841) to avoid annoying errors later!
