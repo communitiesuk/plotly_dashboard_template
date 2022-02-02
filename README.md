@@ -96,7 +96,10 @@ pylint <Dashboard name>
 ###  Add reminder message to run formatter and linter before pushing to GitHub
 
 
-Copy the following text to a new file called .git/hooks/pre-commit (You may need to create this file using File Explorer with [hidden files and folders turned on](https://support.microsoft.com/en-us/windows/view-hidden-files-and-folders-in-windows-97fbc472-c603-9d90-91d0-1166d1d9f4b5#WindowsVersion=Windows_11), as VS Code hides the .git directory by default):
+1.  On VS Code go to File - Preferences - Settings
+1.  Search for files.exclude
+1.  Mouse over "**/.git", and click the cross icon
+1.  In the explorer navigate to .git/hooks/ and create a new file called pre-commit. Paste the below command into the file: 
 
 ```bash
 #!/usr/bin/env bash
