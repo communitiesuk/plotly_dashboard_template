@@ -1,7 +1,7 @@
 """bar_chart"""
 import plotly.express as px
 
-from lib.govuk_colors import GovUKColors
+from gov_uk_dashboards.colours import GovUKColours
 
 
 def bar_chart(
@@ -23,7 +23,7 @@ def bar_chart(
         range_x=[dataframe[[xaxis]].min(), dataframe[[xaxis]].max()],
         hover_data=dataframe.columns,
         color=color,
-        color_discrete_sequence=GovUKColors.BLUE_LIGHT_TO_DARK.value,
+        color_discrete_sequence=GovUKColours.BLUE_LIGHT_TO_DARK.value,
     )
     fig.update_layout(paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)")
     return fig
