@@ -18,6 +18,7 @@ dependencies:
   - numpy=1.22.1
   # Some packages not available in Conda Forge, so have to be installed through pip.
   - pip:
-      - dash[testing]
-      - chromedriver-binary-auto
-      - gunicorn
+    - git+https://github.com/communitiesuk/pkg_gov_uk_dashboards.git@v2.0.0
+    - dash[testing]
+    - chromedriver-binary-auto
+    - gunicorn
