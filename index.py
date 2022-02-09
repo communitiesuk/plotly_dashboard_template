@@ -8,9 +8,9 @@ from dash import dcc, html, Input, Output
 import pandas as pd
 
 from app import app
-from components.banners import message_banner
-from components.dashboard_container import dashboard_container
-from components.header import header
+from gov_uk_dashboards.components.plotly.banners import message_banner
+from gov_uk_dashboards.components.plotly.dashboard_container import dashboard_container
+from gov_uk_dashboards.components.plotly.header import header
 from dashboards.error_page import error_page
 from dashboards.template_dashboard import template_dashboard
 from lib.url import selected_filters, dict_to_query_string

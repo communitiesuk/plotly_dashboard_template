@@ -1,7 +1,7 @@
 """error"""
 from dash import html
 
-from components.main_content import main_content
+from gov_uk_dashboards.components.plotly.main_content import main_content
 
 
 def error_page():
