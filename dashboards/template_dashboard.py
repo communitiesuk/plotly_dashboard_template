@@ -3,14 +3,14 @@ A dashboard that shows statistics about housing supply in England on a choroplet
 """
 from dash import dcc
 
-from components.dropdowns import dropdown
-from components.filter_panel import filter_panel
-from components.main_content import main_content
-from components.navbar import navbar, navbar_link_active
-from components.row_component import row_component
-from components.visualisation_title import format_visualisation_title
-from components.visualisation_commentary import format_visualisation_commentary
-from components.card import card
+from gov_uk_dashboards.components.plotly.dropdowns import dropdown
+from gov_uk_dashboards.components.plotly.filter_panel import filter_panel
+from gov_uk_dashboards.components.plotly.main_content import main_content
+from gov_uk_dashboards.components.plotly.navbar import navbar, navbar_link_active
+from gov_uk_dashboards.components.plotly.row_component import row_component
+from gov_uk_dashboards.components.plotly.visualisation_title import format_visualisation_title
+from gov_uk_dashboards.components.plotly.visualisation_commentary import format_visualisation_commentary
+from gov_uk_dashboards.components.plotly.card import card
 
 from figures.bar_chart import bar_chart
 
