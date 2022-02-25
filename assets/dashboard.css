@@ -1,15 +1,20 @@
 /* Styles https://github.com/publichealthengland/coronavirus-dashboard via source: https://coronavirus.data.gov.uk/*/
 
+.header-image{
+  flex: none;
+  padding-right: 10px;
+  padding-bottom: 7px;
+}
+
 .dashboard-title {
-    position: absolute;
-    left: 50%;
-    transform: translate(-50%);
+  text-align:center;
+  flex:1 1;
+  padding-right: 10px;
 }
 
 .protective-marking {
-    position: absolute;
-    right: 0%;
-    top: 25%;
+    margin-bottom:15px;
+    flex: none;
 }
 
 @charset "UTF-8";
@@ -5296,6 +5301,10 @@
 .govuk-header__logo,
 .govuk-header__content {
   box-sizing: border-box;
+  display:flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items:center;
 }
 .govuk-header__logo {
   margin-bottom: 10px;
