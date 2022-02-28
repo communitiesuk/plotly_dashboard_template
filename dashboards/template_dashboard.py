@@ -14,6 +14,7 @@ from gov_uk_dashboards.components.plotly.visualisation_commentary import (
     format_visualisation_commentary,
 )
 from gov_uk_dashboards.components.plotly.card import card
+from gov_uk_dashboards.components.plotly.graph import graph
 
 from figures.bar_chart import bar_chart
 
@@ -22,9 +23,7 @@ def template_dashboard(df, example_dropdown="option 1"):
     """Create and return the dashboard layout for display in the application."""
 
     barchart = bar_chart(df, "Category", "Value", color="Category")
-    barchart_dash = dcc.Graph(
-        id="example bar chart", responsive="auto", figure=barchart
-    )
+    barchart_dash = graph(element_id="example bar chart", figure=barchart)
     dashboard_content = [card(barchart_dash)]
 
     return main_content(
