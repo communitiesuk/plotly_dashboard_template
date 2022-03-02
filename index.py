@@ -14,9 +14,9 @@ from gov_uk_dashboards.components.plotly.navbar import (
 )
 from gov_uk_dashboards.components.plotly.banners import message_banner
 from gov_uk_dashboards.components.plotly.dashboard_container import dashboard_container
-from gov_uk_dashboards.components.plotly.header import header
 
 from app import app
+from components.header import header
 from dashboards.error_page import error_page
 from dashboards.template_dashboard import template_dashboard
 from lib.url import selected_filters, dict_to_query_string
