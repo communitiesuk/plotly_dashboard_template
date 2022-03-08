@@ -14,6 +14,7 @@ from gov_uk_dashboards.components.plotly.navbar import (
 )
 from gov_uk_dashboards.components.plotly.banners import message_banner
 from gov_uk_dashboards.components.plotly.dashboard_container import dashboard_container
+from gov_uk_dashboards.components.plotly.phase_banner import phase_banner_with_feedback
 
 from app import app
 from components.header import header
@@ -35,6 +36,12 @@ app.layout = html.Div(
         header(app.title),
         html.Div(
             [
+                phase_banner_with_feedback(
+                    phase="alpha",
+                    feedback_link="mailto:<contact e-mail address>?"  # Add an e-mail address for people to provide feedback.
+                    f"subject=Feedback on {app.title}",
+                    link_id="feedback-link",
+                ),
                 html.Div(
                     [
                         dcc.Location(id="url", refresh=False),
@@ -45,7 +52,7 @@ app.layout = html.Div(
                         html.Div(id="page-content"),
                     ],
                     className="govuk-main-wrapper--auto-spacing govuk-!-padding-top-2",
-                )
+                ),
             ],
             className="govuk-width-container",
         ),
@@ -61,6 +68,7 @@ def dashboard_argument_values(url, argument_values):
 @app.callback(
     Output("protective-marking", "children"),
     Output("page-content", "children"),
+    Output("feedback-link", "href"),
     Input("url", "pathname"),
     Input("url", "search"),
 )
@@ -70,10 +78,18 @@ def display_page(pathname, query_string):
         paths = {
             "/": {
                 "protective_marking": "OFFICIAL",
+                "title": "Dashboard 1",
                 "dashboard": lambda: template_dashboard(
                     df, **dashboard_argument_values(query_string, ["example_dropdown"])
                 ),
-            }
+            },
+            "/dashboard-1": {
+                "protective_marking": "OFFICIAL",
+                "title": "Dashboard 1",
+                "dashboard": lambda: template_dashboard(
+                    df, **dashboard_argument_values(query_string, ["example_dropdown"])
+                ),
+            },
         }
 
         for path, route in paths.items():
@@ -82,10 +98,16 @@ def display_page(pathname, query_string):
                     route["protective_marking"],
                     dashboard_container(
                         [
-                            generate_navbar(path, **selected_filters(query_string)),
+                            generate_navbar(
+                                active_page=route["title"],
+                                pages_info=paths,
+                                **selected_filters(query_string),
+                            ),
                             route["dashboard"](),
                         ]
                     ),
+                    "mailto:<contact e-mail address>?"  # Add an e-mail address for people to provide feedback.
+                    f"subject=Feedback on {app.title} - {route['title']}",
                 ]
     except Exception as exception:
         if os.environ.get("STAGE") == "production":
@@ -98,42 +120,37 @@ def display_page(pathname, query_string):
     return page_not_found
 
 
-@app.callback(Output("url", "search"), Input("example_dropdown", "value"))
-def update_url(example_dropdown):
-    """When the user changes any filter panel elements, update the URL query parameters"""
+def generate_navbar(active_page: str, pages_info: dict, **query_filters):
+    """Creates a navigation bar with current page highlighted"""
+
+    query_string = create_defaulted_query_string(**query_filters)
+
+    navbar_links = [
+        navbar_link_active(
+            page_info["title"],
+            href=page_key + query_string,
+        )
+        if page_info["title"] == active_page
+        else navbar_link(
+            page_info["title"],
+            href=page_key + query_string,
+        )
+        for page_key, page_info in pages_info.items()
+        if page_key != "/"
+    ]
+
+    return navbar(navbar_links)
+
+
+def create_defaulted_query_string(example_dropdown=None):
+    """Create a query string with default parameters unless specified otherwise"""
     return dict_to_query_string(example_dropdown=example_dropdown)
 
 
-def generate_navbar(active_page, example_dropdown=None):
-
-    """Creates a navigation bar with current page highlighted"""
-    if active_page == "/":
-        highlight_page = "Dashboard 1"
-    else:
-        highlight_page = active_page[1:].replace("-", " ").capitalize()
-
-    page_titles = [
-        "Dashboard 1",
-    ]
-    combined_navbar_links = []
-    query_string = dict_to_query_string(example_dropdown=example_dropdown)
-
-    for page in page_titles:
-        link = "/" + page.replace(" ", "-").lower()
-
-        if page == highlight_page:
-            combined_navbar_links.append(
-                navbar_link_active(
-                    page,
-                    href=link + query_string,
-                )
-            )
-        else:
-            combined_navbar_links.append(
-                navbar_link(
-                    page,
-                    href=link + query_string,
-                )
-            )
-
-    return navbar(combined_navbar_links)
+@app.callback(
+    Output("url", "search"),
+    Input("example_dropdown", "value"),
+)
+def update_url(*query_filters):
+    """When the user changes any filter panel elements, update the URL query parameters"""
+    return create_defaulted_query_string(*query_filters)
