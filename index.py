@@ -5,7 +5,6 @@ import logging
 import os
 
 from dash import dcc, html, Input, Output, State
-import pandas as pd
 from gov_uk_dashboards.components.plotly.filter_panel import hidden_filter
 from gov_uk_dashboards.components.plotly.banners import message_banner
 from gov_uk_dashboards.components.plotly.dashboard_container import dashboard_container
@@ -13,7 +12,6 @@ from gov_uk_dashboards.components.plotly.phase_banner import phase_banner_with_f
 
 from app import app
 from components.header import header
-from dashboards.error_page import error_page
 from dashboards.template_dashboard import template_dashboard
 from lib.dashboard_page import DashboardPage
 from lib.dashboard_storage_and_lookup import DashboardStorageAndLookup
@@ -29,8 +27,9 @@ app.layout = html.Div(
             [
                 phase_banner_with_feedback(
                     phase="alpha",
-                    feedback_link="mailto:<contact e-mail address>?"  # Add an e-mail address for people to provide feedback.
-                                  f"subject=Feedback on {app.title}",
+                    # Add an e-mail address for people to provide feedback.
+                    feedback_link="mailto:<contact e-mail address>?"
+                    f"subject=Feedback on {app.title}",
                     link_id="feedback-link",
                 ),
                 html.Div(
@@ -56,7 +55,7 @@ dashboards.add_dashboards(
         DashboardPage(
             title="Dashboard 1",
             pathname="/dashboard-1",
-            function_to_call=template_dashboard(),
+            function_to_call=template_dashboard,
             filters=["example_dropdown"],
         )
     ]
@@ -70,7 +69,7 @@ all_filters = ["example_dropdown"]
     Output("page-content", "children"),
     Output("feedback-link", "href"),
     Input("url", "pathname"),
-    Input("url", "search"),
+    State("url", "search"),
 )
 def display_page(pathname, query_string):
     """Show the user the correct dashboard for the given path"""
@@ -86,8 +85,8 @@ def display_page(pathname, query_string):
             dashboard_container(
                 [navbar, dashboard.display_dashboard(query_string), hidden_filters]
             ),
-            "mailto:<contact e-mail address>?"  # Add an e-mail address for people to provide 
-            # feedback. 
+            "mailto:<contact e-mail address>?"  # Add an e-mail address for people to provide
+            # feedback.
             f"subject=Feedback on {app.title} - {dashboard.title}",
         )
 
@@ -98,8 +97,8 @@ def display_page(pathname, query_string):
             return (
                 dashboard.protective_marking,
                 dashboard_container([dashboard.display_dashboard(query_string)]),
-                "mailto:<contact e-mail address>?"  # Add an e-mail address for people to provide 
-                # feedback. 
+                "mailto:<contact e-mail address>?"  # Add an e-mail address for people to provide
+                # feedback.
                 f"subject=Feedback on {app.title} - {dashboard.title}",
             )
 

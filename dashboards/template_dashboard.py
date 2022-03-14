@@ -1,7 +1,7 @@
 """
 A test bar chart dashboard
 """
-from dash import dcc
+from dash import Output, Input, html
 import pandas as pd
 
 from gov_uk_dashboards.components.plotly.dropdowns import dropdown
@@ -16,6 +16,8 @@ from gov_uk_dashboards.components.plotly.visualisation_commentary import (
 )
 from gov_uk_dashboards.components.plotly.card import card
 from gov_uk_dashboards.components.plotly.graph import graph
+
+from app import app
 
 from figures.bar_chart import bar_chart
 
@@ -50,7 +52,18 @@ def template_dashboard(example_dropdown="option 1"):
                 ],
             ),
             format_visualisation_title("Visualisation title"),
-            format_visualisation_commentary(f"{example_dropdown} selected."),
+            html.Div(
+                id="example_commentary",
+            ),
             row_component(dashboard_content),
         ],
     )
+
+
+@app.callback(
+    Output(component_id="example_commentary", component_property="children"),
+    Input(component_id="example_dropdown", component_property="value"),
+)
+def update_example_commentary(example_dropdown):
+    """Example of how to update commentary with selected option."""
+    return format_visualisation_commentary(f"{example_dropdown} selected.")
