@@ -2,6 +2,7 @@
 A test bar chart dashboard
 """
 from dash import dcc
+import pandas as pd
 
 from gov_uk_dashboards.components.plotly.dropdowns import dropdown
 from gov_uk_dashboards.components.plotly.filter_panel import filter_panel
@@ -18,8 +19,14 @@ from gov_uk_dashboards.components.plotly.graph import graph
 
 from figures.bar_chart import bar_chart
 
+data = {
+    "Category": ["Category 1", "Category 2", "Category 3"],
+    "Value": [30, 15, 20],
+}
+df = pd.DataFrame(data)
 
-def template_dashboard(df, example_dropdown="option 1"):
+
+def template_dashboard(example_dropdown="option 1"):
     """Create and return the dashboard layout for display in the application."""
 
     barchart = bar_chart(df, "Category", "Value", color="Category")
