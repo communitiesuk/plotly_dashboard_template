@@ -4,30 +4,19 @@ Create paths to serve different dashboards.  Add new paths in the display_page c
 import logging
 import os
 
-from dash import dcc, html, Input, Output
-import pandas as pd
-
-from gov_uk_dashboards.components.plotly.navbar import (
-    navbar_link_active,
-    navbar_link,
-    navbar,
-)
+from dash import dcc, html, Input, Output, State
+from gov_uk_dashboards.components.plotly.filter_panel import hidden_filter
 from gov_uk_dashboards.components.plotly.banners import message_banner
 from gov_uk_dashboards.components.plotly.dashboard_container import dashboard_container
 from gov_uk_dashboards.components.plotly.phase_banner import phase_banner_with_feedback
 
 from app import app
 from components.header import header
-from dashboards.error_page import error_page
 from dashboards.template_dashboard import template_dashboard
+from lib.dashboard_page import DashboardPage
+from lib.dashboard_storage_and_lookup import DashboardStorageAndLookup
+from lib.generate_navbar import generate_navbar
 from lib.url import selected_filters, dict_to_query_string
-
-
-data = {
-    "Category": ["Category 1", "Category 2", "Category 3"],
-    "Value": [30, 15, 20],
-}
-df = pd.DataFrame(data)
 
 app.title = "Template Dashboard"
 
@@ -38,7 +27,8 @@ app.layout = html.Div(
             [
                 phase_banner_with_feedback(
                     phase="alpha",
-                    feedback_link="mailto:<contact e-mail address>?"  # Add an e-mail address for people to provide feedback.
+                    # Add an e-mail address for people to provide feedback.
+                    feedback_link="mailto:<contact e-mail address>?"
                     f"subject=Feedback on {app.title}",
                     link_id="feedback-link",
                 ),
@@ -58,11 +48,20 @@ app.layout = html.Div(
         ),
     ]
 )
+dashboards = DashboardStorageAndLookup()
 
+dashboards.add_dashboards(
+    [
+        DashboardPage(
+            title="Dashboard 1",
+            pathname="/dashboard-1",
+            function_to_call=template_dashboard,
+            filters=["example_dropdown"],
+        )
+    ]
+)
 
-def dashboard_argument_values(url, argument_values):
-    """Assigns required arguments for each dashboard"""
-    return {x: selected_filters(url).get(x) for x in argument_values}
+all_filters = ["example_dropdown"]
 
 
 @app.callback(
@@ -70,87 +69,78 @@ def dashboard_argument_values(url, argument_values):
     Output("page-content", "children"),
     Output("feedback-link", "href"),
     Input("url", "pathname"),
-    Input("url", "search"),
+    State("url", "search"),
 )
 def display_page(pathname, query_string):
     """Show the user the correct dashboard for the given path"""
     try:
-        paths = {
-            "/": {
-                "protective_marking": "OFFICIAL",
-                "title": "Dashboard 1",
-                "dashboard": lambda: template_dashboard(
-                    df, **dashboard_argument_values(query_string, ["example_dropdown"])
-                ),
-            },
-            "/dashboard-1": {
-                "protective_marking": "OFFICIAL",
-                "title": "Dashboard 1",
-                "dashboard": lambda: template_dashboard(
-                    df, **dashboard_argument_values(query_string, ["example_dropdown"])
-                ),
-            },
-        }
+        dashboard = dashboards.get_dashboard_from_pathname(pathname)
 
-        for path, route in paths.items():
-            if pathname == path:
-                return [
-                    route["protective_marking"],
-                    dashboard_container(
-                        [
-                            generate_navbar(
-                                active_page=route["title"],
-                                pages_info=paths,
-                                **selected_filters(query_string),
-                            ),
-                            route["dashboard"](),
-                        ]
-                    ),
-                    "mailto:<contact e-mail address>?"  # Add an e-mail address for people to provide feedback.
-                    f"subject=Feedback on {app.title} - {route['title']}",
-                ]
+        hidden_filters = create_missing_filters_for_dashboard(dashboard)
+
+        navbar = generate_navbar(dashboards, pathname, query_string)
+
+        return (
+            dashboard.protective_marking,
+            dashboard_container(
+                [navbar, dashboard.display_dashboard(query_string), hidden_filters]
+            ),
+            "mailto:<contact e-mail address>?"  # Add an e-mail address for people to provide
+            # feedback.
+            f"subject=Feedback on {app.title} - {dashboard.title}",
+        )
+
     except Exception as exception:
         if os.environ.get("STAGE") == "production":
+            dashboard = dashboards.error_dashboard
             logging.exception(exception)
-            return ["OFFICIAL", dashboard_container(error_page())]
+            return (
+                dashboard.protective_marking,
+                dashboard_container([dashboard.display_dashboard(query_string)]),
+                "mailto:<contact e-mail address>?"  # Add an e-mail address for people to provide
+                # feedback.
+                f"subject=Feedback on {app.title} - {dashboard.title}",
+            )
 
         raise exception
 
-    page_not_found = "404"
-    return page_not_found
 
-
-def generate_navbar(active_page: str, pages_info: dict, **query_filters):
-    """Creates a navigation bar with current page highlighted"""
-
-    query_string = create_defaulted_query_string(**query_filters)
-
-    navbar_links = [
-        navbar_link_active(
-            page_info["title"],
-            href=page_key + query_string,
-        )
-        if page_info["title"] == active_page
-        else navbar_link(
-            page_info["title"],
-            href=page_key + query_string,
-        )
-        for page_key, page_info in pages_info.items()
-        if page_key != "/"
-    ]
-
-    return navbar(navbar_links)
-
-
-def create_defaulted_query_string(example_dropdown=None):
-    """Create a query string with default parameters unless specified otherwise"""
-    return dict_to_query_string(example_dropdown=example_dropdown)
+def create_missing_filters_for_dashboard(dashboard):
+    """Finds filters missing from the dashboard & creates div containing matching hidden filters"""
+    return html.Div(
+        [
+            hidden_filter(filter_name)
+            for filter_name in all_filters
+            if filter_name not in dashboard.filters
+        ]
+    )
 
 
 @app.callback(
-    Output("url", "search"),
-    Input("example_dropdown", "value"),
+    Output(component_id="url", component_property="search"),
+    Output(component_id="navigation-items", component_property="children"),
+    State(component_id="url", component_property="pathname"),
+    State(component_id="url", component_property="search"),
+    [
+        Input(component_id=filter_name, component_property="value")
+        for filter_name in all_filters
+    ],
 )
-def update_url(*query_filters):
+def update_url(
+    pathname,
+    query_string,
+    *filter_values,
+):
     """When the user changes any filter panel elements, update the URL query parameters"""
-    return create_defaulted_query_string(*query_filters)
+
+    # We're having to access the query string so that we can only update the value that has changed
+    # in the dropdown, otherwise we lose those filters which created dynamically.
+    params = selected_filters(query_string)
+
+    for name, value in zip(all_filters, filter_values):
+        if value:
+            params[name] = value
+
+    query_string = dict_to_query_string(**params)
+
+    return query_string, generate_navbar(dashboards, pathname, query_string)
