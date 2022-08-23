@@ -4,7 +4,7 @@ A test bar chart dashboard
 from dash import Output, Input, html
 import pandas as pd
 
-from gov_uk_dashboards.components.plotly.dropdowns import dropdown
+from uk_gov_dash_components.Dropdown import Dropdown
 from gov_uk_dashboards.components.plotly.filter_panel import filter_panel
 from gov_uk_dashboards.components.plotly.main_content import main_content
 from gov_uk_dashboards.components.plotly.row_component import row_component
@@ -39,15 +39,14 @@ def template_dashboard(example_dropdown="option 1"):
         [
             filter_panel(
                 [
-                    dropdown(
+                    Dropdown(
                         label="Example dropdown",
-                        element_id="example_dropdown",
-                        options=[
+                        id="example_dropdown",
+                        source=[
                             {"label": metric, "value": metric}
                             for metric in ["option 1", "option 2"]
                         ],
-                        selected=example_dropdown,
-                        optionHeight=50,
+                        value=example_dropdown,
                     ),
                 ],
             ),
