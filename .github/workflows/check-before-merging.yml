@@ -2,7 +2,7 @@ name: Automated checks
 # on:
 #   pull_request:
 #     branches:
-#       - main #TODO uncomment lines 2-5
+#       - main # TODO uncomment lines 2-5
 
 env:
   application-name: <application name> # Update name to application name.
