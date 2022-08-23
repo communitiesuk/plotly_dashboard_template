@@ -1,0 +1,16 @@
+name: Download and install Cloud Foundry
+description: Download and install Cloud Foundry
+runs:
+  using: "composite"
+  steps:
+    - name: Download Cloud Foundry public key
+      shell: bash
+      run: wget -q -O - https://packages.cloudfoundry.org/debian/cli.cloudfoundry.org.key | sudo apt-key add -
+    - name: Register Cloud Foundry public apt repo
+      shell: bash
+      run: echo "deb https://packages.cloudfoundry.org/debian stable main" | sudo tee /etc/apt/sources.list.d/cloudfoundry-cli.list
+    - name: install Cloud Foundry CLI
+      shell: bash
+      run: sudo apt-get update && sudo apt-get install cf7-cli
+    - shell: bash
+      run: echo "Using Cloud Foundry CLI version " && cf -v
