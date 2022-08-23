@@ -1,0 +1,22 @@
+name: Deploy
+description: Deploy to Gov PaaS
+inputs:
+  application-name:
+    description: "The name of the application to deploy to Gov UK PaaS"
+    required: true
+  hostname:
+    description: "Name of hostname"
+    required: true
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/checkout@v2
+    - name: Create the route # Creating route before pushing app to minimise time without route mapping
+      shell: bash
+      run: cf create-route london.cloudapps.digital --hostname ${{ inputs.hostname }}
+    - name: Deploy
+      shell: bash
+      run: cf push ${{ inputs.application-name }} --strategy rolling
+    - name: Map route to application
+      shell: bash
+      run: cf map-route ${{ inputs.application-name }} london.cloudapps.digital --hostname ${{ inputs.hostname }}

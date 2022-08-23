@@ -1,8 +1,8 @@
 ---
 applications:
   - name: <dashboard name> # update to match name of application
-    memory: 2GB
+    memory: 3GB
     disk_quota: 3GB
-    command: gunicorn run:server
+    command: gunicorn run:server --workers=3 --env STAGE=production
     buildpacks:
       - python_buildpack

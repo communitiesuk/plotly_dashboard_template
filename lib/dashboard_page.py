@@ -14,6 +14,7 @@ class DashboardPage:
     filters: list[str]
     function_to_call: Callable
     protective_marking: str = "OFFICIAL"
+    hide_from_menu: bool = False
 
     def display_dashboard(self, query_string):
         """Return the dashboad using the given query string"""

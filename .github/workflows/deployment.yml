@@ -1,0 +1,145 @@
+name: <dashboard name> deployment # Update name to match dashboard.
+#on:
+  #push:
+    #branches:
+      #- main   # TODO uncomment lines 2-5
+
+env:
+  application-name: <dashboard name> # Update name to match dashboard.
+  organisation: mhclg-data-dashboards
+  ip-restriction-application-name: "ip-restriction-app"
+
+jobs:
+  format:
+    name: 'Check code formatting'
+    runs-on: ubuntu-20.04
+    defaults:
+      run:
+        shell: bash -l {0}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: conda-incubator/setup-miniconda@v2
+        with:
+          auto-update-conda: true
+          activate-environment: ${{ env.application-name }}
+          environment-file: environment.yml
+      - name: Run formater
+        run: black --check ./
+
+  lint:
+    name: 'Check code for linting errors'
+    runs-on: ubuntu-20.04
+    defaults:
+      run:
+        shell: bash -l {0}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: conda-incubator/setup-miniconda@v2
+        with:
+          auto-update-conda: true
+          activate-environment: ${{ env.application-name }}
+          environment-file: environment.yml
+      - name: Run linter
+        run: pylint $(pwd)
+
+  test:
+    name: 'Running tests'
+    runs-on: ubuntu-20.04
+    defaults:
+      run:
+        shell: bash -l {0}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: conda-incubator/setup-miniconda@v2
+        with:
+          auto-update-conda: true
+          activate-environment: ${{ env.application-name }}
+          environment-file: environment.yml
+      - name: Execute tests
+        run: python -u -m pytest --headless tests
+
+  deploy-staging:
+    name: 'Deploy to staging Gov PaaS'
+    runs-on: ubuntu-20.04
+    environment: 'staging'
+    concurrency: staging_environment
+    needs: [test]
+    env:
+      logging_level: DEBUG
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: 'Install cloud foundry'
+        uses: ./.github/actions/cloud_foundry/install
+      - name: 'Log in to Gov UK PaaS'
+        uses: ./.github/actions/cloud_foundry/login
+        with:
+          spacename: <space name> # Update name to match staging spacename.
+          username: ${{ secrets.GOV_PAAS_USER }}
+          password: ${{ secrets.GOV_PAAS_PASS }}
+          organisation: ${{ env.organisation }}
+      - name: Set environment variables
+        shell: bash
+        run: |
+          cf set-env ${{ env.application-name }} LOGGING_LEVEL ${{ env.logging_level }}
+      - name: 'Deploy to Gov UK PaaS'
+        uses: ./.github/actions/cloud_foundry/deploy
+        with:
+          hostname: <hostname> # Update name to match staging hostname.
+          application-name: ${{ env.application-name }}
+
+  product_approval:
+    name: 'Product manager approval'
+    environment: 'prod-product'
+    runs-on: ubuntu-20.04
+    timeout-minutes: 30
+    needs: [deploy-staging]
+    steps:
+      - name: 'Product manager approved'
+        run: echo 'Product manager approved'
+
+  tech_approval:
+    name: 'Tech approval'
+    environment: 'prod-tech'
+    runs-on: ubuntu-20.04
+    timeout-minutes: 30
+    needs: [deploy-staging]
+    steps:
+      - name: 'Tech approved'
+        run: echo 'Technical approved'
+
+  deploy-production:
+    name: 'Deploy to production Gov PaaS'
+    runs-on: ubuntu-20.04
+    environment: 'production'
+    concurrency: production_environment
+    needs: [tech_approval, product_approval]
+    env:
+      logging_level: INFO
+      autoscaling-policy: 'auto_scaling_policy.json'
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: 'Install cloud foundry'
+        uses: ./.github/actions/cloud_foundry/install
+      - name: 'Log in to Gov UK PaaS'
+        uses: ./.github/actions/cloud_foundry/login
+        with:
+          spacename: <space name> # Update name to match production spacename.
+          username: ${{ secrets.GOV_PAAS_USER }}
+          password: ${{ secrets.GOV_PAAS_PASS }}
+          organisation: ${{ env.organisation }}
+      - name: 'Configure autoscaling policy'
+        uses: ./.github/actions/cloud_foundry/configure_autoscaling_policy
+        with:
+          application-name: ${{ env.application-name }}
+          autoscaling-policy: ${{ env.autoscaling-policy }}
+      - name: Set environment variables
+        shell: bash
+        run: |
+          cf set-env ${{ env.application-name }} LOGGING_LEVEL ${{ env.logging_level }}
+      - name: 'Deploy to Gov UK PaaS'
+        uses: ./.github/actions/cloud_foundry/deploy
+        with:
+          hostname: <host name> # Update name to match production hostname.
+          application-name: ${{ env.application-name }}
