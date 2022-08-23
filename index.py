@@ -53,7 +53,8 @@ app.layout = html.Div(
             className="govuk-width-container",
             **{"aria-live": "polite", "aria-atomic": "true"},
         ),
-        footer([dcc.Link("Accessibility statement", href="#")]),
+        footer([dcc.Link("Accessibility statement", href="#")]), # TODO update href with real page
+        # url
     ]
 )
 dashboards = DashboardStorageAndLookup()
@@ -150,7 +151,7 @@ def update_url(
     """When the user changes any filter panel elements, update the URL query parameters"""
 
     dashboard = dashboards.get_dashboard_from_pathname(pathname)
-    
+
     # We're having to access the query string so that we can only update the value that has changed
     # in the dropdown, otherwise we lose those filters which created dynamically.
     params = selected_filters(query_string)
