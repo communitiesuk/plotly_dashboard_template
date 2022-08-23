@@ -1,8 +1,8 @@
 name: <dashboard name> deployment # Update name to match dashboard.
-on:
-  push:
-    branches:
-      - main
+#on:
+  #push:
+    #branches:
+      #- main   #TODO uncomment lines 2-5
 
 env:
   application-name: <dashboard name> # Update name to match dashboard.
