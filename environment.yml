@@ -19,7 +19,7 @@ dependencies:
   - Werkzeug=2.0.3
   # Some packages not available in Conda Forge, so have to be installed through pip.
   - pip:
-    - git+https://github.com/communitiesuk/pkg_gov_uk_dashboards.git@v4.16.0
+    - git+https://github.com/communitiesuk/pkg_gov_uk_dashboards.git@v4.16.1
     - git+https://github.com/communitiesuk/gov-uk-dash-react-components@v1.2.2
     - dash[testing]
     - chromedriver-autoinstaller
