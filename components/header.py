@@ -18,7 +18,8 @@ def header(title):
                         srcSet="assets\\images\\DLUHC_WHITE_Master_AW_sm.png 490w",
                         sizes="(min-width: 600px) 200px, 30vw",
                         className="header-image",
-                        style={"max-width": "200px"},
+                        style={"maxWidth": "200px"},
+                        alt="Department for Levelling Up, Housing & Communities",
                     ),
                     html.A(
                         title,
@@ -35,6 +36,11 @@ def header(title):
                         "OFFICIAL",
                         className="govuk-tag protective-marking",
                         id="protective-marking",
+                    ),
+                    html.Button(
+                        "Menu ▼",
+                        id="mobile-menu-btn",
+                        className="mobile-menu-button govuk-button",
                     ),
                 ],
                 className="govuk-header__content",
