@@ -12,4 +12,4 @@ def absolute_path(file):
     """
     lib_folder = os.path.dirname(__file__)
     repository_root = os.path.dirname(lib_folder)
-    return os.path.join(repository_root, file)
+    return os.path.join(os.environ.get("DATA_FOLDER_LOCATION", repository_root), file)
