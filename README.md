@@ -9,7 +9,7 @@ A template repository for creating data dashboards with Plotly.
 
 1. Choose a name for the repository to house your code. Please note this name should conform to [snake case (e.g. example_data_dashboard)](https://betterprogramming.pub/string-case-styles-camel-pascal-snake-and-kebab-case-981407998841) to avoid annoying errors later!
 1. Create a new repository to house your dashboard from this template, instructions can be found [here](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template). **Do not overwrite this template repository.** 
-1. Follow the [Getting Started instructions](https://github.com/communitiesuk/plotly_dashboard_docs/blob/main/README.md) 
+1. Follow the [Getting Started instructions](https://github.com/communitiesuk/plotly_dashboard_docs/blob/main/README.md) to the end of Running the application
 
 
 ## Customisation 
