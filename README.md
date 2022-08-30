@@ -13,7 +13,7 @@ A template repository for creating data dashboards with Plotly.
 ### Configuring GitHub policies
 By default, GitHub  does not apply any branch protection policies to newly created repositories. We use these policies to enforce things like: Requiring pull requests to commit changes into the main branch, requiring any comments on pull requests to be resolved and requiring status checks to pass before pull requests can be merged.
 
-1. Open the Settings menu for your GitHub repository ***(You need to be an admin user to see this option. If it's missing contact your GitHub owner for permission)***
+1. Open the Settings menu for your GitHub repository ***(Your user needs to be assigned the Admin role to see this option. If it's missing contact your GitHub owner for permission)***
 
     ![Settings](images/policies/menu_bar.png)
 
