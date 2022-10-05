@@ -76,10 +76,22 @@ cf map-route <APP_NAME> <DOMAIN> --hostname <HOSTNAME>
     Find out more about [configuring your CI tool accounts](https://docs.cloud.service.gov.uk/using_ci.html#configure-your-ci-tool-accounts) in GOV.UK PaaS.
 9. [Store the newly created credentials in GitHub Actions][store_creds] - You should store your sensitive credentials in GitHub Actions. 
     Store the username with secret name `GOV_PAAS_USER` and the password with secret name `GOV_PAAS_PASS`.
-10. OPTIONAL: Create a shared username/password for accessing the hosted dashboard.
-    This can be useful if you want to prevent curious individuals from accessing your dashboard while in development, but does not give any security against malicious actors.
-    You will need to have access to the `cf` command installed and configured, which currently isn't the case within the DAP.
-    GOV.UK PaaS provide guidance on how to do this under the title [Example: Route service to add username and password authentication][basic_auth].
+
+# OPTIONAL: Create a shared username/password for accessing the hosted dashboard
+This can be useful if you want to prevent curious individuals from accessing your dashboard while in development, but does not give any security against malicious actors.
+You will need to have access to the `cf` command installed and configured, which can be requested through DAP support.
+
+GOV.UK PaaS provide guidance on how to do this under the title [Example: Route service to add username and password authentication][basic_auth], however following this method you cannot have both basic authentication and IP restricitons in place as your app can only have one routing service. If you would like your app to have basic authentication and IP restricitons, please follow the below steps to add basic authentication using flask:
+
+1. In `bootstrap.py` uncomment the `enable_basic_auth` function
+1. In your GitHub repository, add environment secrets for `APP_USERNAME` and `APP_PASSWORD`
+1. In `deployment.yml` under the `deploy-staging` job, for the task `Set environment variables` add the below to the run command:
+```python 
+cf set-env ${{ env.application-name }} APP_USERNAME ${{ secrets.APP_USERNAME }}
+cf set-env ${{ env.application-name }} APP_PASSWORD ${{ secrets.APP_PASSWORD }}
+```
+
+**Note:** to update basic authentication credentials, update the `APP_USERNAME` and `APP_PASSWORD` secrets in GitHub and re-deploy your app.
 
 More information on secrets can be found [here](https://docs.github.com/en/actions/security-guides/encrypted-secrets)
 
