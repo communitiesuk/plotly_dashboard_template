@@ -13,7 +13,7 @@
 			"justMyCode": true
 		},
 		{
-			"name": "Local Gov Dash",
+			"name": "Dash",
 			"type": "python",
 			"request": "launch",
 			"program": "${workspaceFolder}\\run.py",
