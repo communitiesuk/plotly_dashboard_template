@@ -1,5 +1,5 @@
 """
-A dashboard that shows statistics about housing supply in England on a choropleth map.
+A test bar chart dashboard
 """
 from dash import Output, Input, html
 import pandas as pd
