@@ -29,7 +29,7 @@ By default, GitHub  does not apply any branch protection policies to newly creat
 ### Installation
 ## Getting Started
 
-### Set up your local development environment (for DLUHC set up)
+### Set up your local development environment (DLUHC set up - others may vary)
 **Note: This section only needs completing once**
 1.  Set your default browser to Google Chrome - [instructions][Make Chrome your default browser].
 1.  Open Anaconda Navigator via Start menu. **Note:** Anaconda asks if you want to update it, but it won't work.
@@ -68,7 +68,6 @@ git config --global user.email "Your.Name@levellingup.gov.uk"
 1.  Install the [Microsoft Python][python_extension] extension for VS Code.
 1.  Follow the [instructions for configuring the Python interpreter][configure_python_interpreter].
 
- **Note: If in DLUHC and get an error when creating conda environment check conda version. Type 'conda --version' in VS Code terminal. conda 4.5.12 needs to be upgraded to 4.10.3. Contact DAP-support@communities.gov.uk**
 
 [open-terminal]: https://code.visualstudio.com/docs/editor/integrated-terminal
 [terminal-switch]: https://code.visualstudio.com/docs/editor/integrated-terminal#_terminal-shells
@@ -177,17 +176,4 @@ The linter checks for basic logic errors and bugs. Linting reports rule violatio
 
 ```bash
 pylint <Dashboard name>
-```
-
-###  Add reminder message to run formatter and linter before pushing to GitHub
-
-
-1.  On VS Code go to File - Preferences - Settings
-1.  Search for files.exclude
-1.  Mouse over "**/.git", and click the cross icon
-1.  In the explorer navigate to .git/hooks/ and create a new file called pre-commit. Paste the below command into the file: 
-
-```bash
-#!/usr/bin/env bash
-echo "Remember to run Black and Pylint before pushing to GitHub" 
 ```
