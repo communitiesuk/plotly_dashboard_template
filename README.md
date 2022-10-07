@@ -83,13 +83,13 @@ You will need to have access to the `cf` command installed and configured, which
 
 GOV.UK PaaS provide guidance on how to do this under the title [Example: Route service to add username and password authentication][basic_auth], however following this method you cannot have both basic authentication and IP restricitons in place as your app can only have one routing service. If you would like your app to have basic authentication and IP restricitons, please follow the below steps to add basic authentication using flask:
 
-1. In `bootstrap.py` uncomment the `enable_basic_auth` function
 1. In your GitHub repository, add environment secrets for `APP_USERNAME` and `APP_PASSWORD`
 1. In `deployment.yml` under the `deploy-staging` job, for the task `Set environment variables` add the below to the run command:
 ```python 
 cf set-env ${{ env.application-name }} APP_USERNAME ${{ secrets.APP_USERNAME }}
 cf set-env ${{ env.application-name }} APP_PASSWORD ${{ secrets.APP_PASSWORD }}
 ```
+1. In 'app.py' uncomment 'enable_basic_auth(app)'
 
 **Note:** to update basic authentication credentials, update the `APP_USERNAME` and `APP_PASSWORD` secrets in GitHub and re-deploy your app.
 
