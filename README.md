@@ -84,16 +84,16 @@ GOV.UK PaaS provide guidance on how to do this under the title [Example: Route s
 
 1. In your GitHub repository, add environment secrets for `APP_USERNAME` and `APP_PASSWORD`
 1. In `deployment.yml` under the `deploy-staging` job, for the task `Set environment variables` add the below to the run command:
-```python 
-cf set-env ${{ env.application-name }} APP_USERNAME ${{ secrets.APP_USERNAME }}
-cf set-env ${{ env.application-name }} APP_PASSWORD ${{ secrets.APP_PASSWORD }}
-```
+    ```python 
+    cf set-env ${{ env.application-name }} APP_USERNAME ${{ secrets.APP_USERNAME }}
+    cf set-env ${{ env.application-name }} APP_PASSWORD ${{ secrets.APP_PASSWORD }}
+    ```
 1. In 'app.py' add:
-```python
-from gov_uk_dashboards.lib.enable_basic_auth import enable_basic_auth
+    ```python
+    from gov_uk_dashboards.lib.enable_basic_auth import enable_basic_auth
 
-enable_basic_auth(app)
-```
+    enable_basic_auth(app)
+    ```
 
 **Note:** to update basic authentication credentials, update the `APP_USERNAME` and `APP_PASSWORD` secrets in GitHub and re-deploy your app.
 
