@@ -1,4 +1,4 @@
-name: <Dashboard name>
+name: plotly_dashboard_template # Replace with your dashboard name
 channels:
   - conda-forge
   - nodefaults
