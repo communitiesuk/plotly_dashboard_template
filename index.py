@@ -99,7 +99,11 @@ def display_page(pathname, query_string):
                     hidden_filters,
                 ]
             ),
-            side_navbar(side_nav_links, identifier="mobile-navigation-items"),
+            side_navbar(
+                side_nav_links,
+                identifier="mobile-navigation-items",
+                nav_id="mobile-nav-section",
+            ),
             "mailto:<contact e-mail address>?"  # Add an e-mail address for people to provide
             # feedback.
             f"subject=Feedback on {app.title} - {dashboard.title}",
