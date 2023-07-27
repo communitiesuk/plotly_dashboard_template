@@ -10,7 +10,7 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Install autoscaling plugin
       shell: bash
       run: cf install-plugin -r CF-Community app-autoscaler-plugin -f

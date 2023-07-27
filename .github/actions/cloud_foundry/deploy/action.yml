@@ -10,7 +10,7 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Create the route # Creating route before pushing app to minimise time without route mapping
       shell: bash
       run: cf create-route london.cloudapps.digital --hostname ${{ inputs.hostname }}
