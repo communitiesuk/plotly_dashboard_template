@@ -16,7 +16,7 @@ jobs:
         shell: bash -l {0}
     steps:
       - uses: actions/checkout@v4
-      - uses: conda-incubator/setup-miniconda@v2
+      - uses: conda-incubator/setup-miniconda@v3
         with:
           auto-update-conda: true
           activate-environment: ${{ env.application-name }}
@@ -32,7 +32,7 @@ jobs:
         shell: bash -l {0}
     steps:
       - uses: actions/checkout@v4
-      - uses: conda-incubator/setup-miniconda@v2
+      - uses: conda-incubator/setup-miniconda@v3
         with:
           auto-update-conda: true
           activate-environment: ${{ env.application-name }}
@@ -48,7 +48,7 @@ jobs:
         shell: bash -l {0}
     steps:
       - uses: actions/checkout@v4
-      - uses: conda-incubator/setup-miniconda@v2
+      - uses: conda-incubator/setup-miniconda@v3
         with:
           auto-update-conda: true
           activate-environment: ${{ env.application-name }}
