@@ -23,8 +23,6 @@ from figures.bar_chart import bar_chart
 
 from lib.local_authority import LocalAuthority
 
-authority = LocalAuthority("E061", "LA1")  # example of LocalAuthority class
-
 data = {
     # authorities should be identified via ONS code rather than name to avoid ambiguity.
     # class LocalAuthority can be used to make this clearer.
@@ -42,6 +40,11 @@ def template_dashboard(example_dropdown="option 1"):
     barchart_dash = graph(element_id="example bar chart", figure=barchart)
     dashboard_content = [card(barchart_dash)]
 
+    dropdown_options = [
+        {"label": data["LA_name"][data_index], "value": data["LA_code"][data_index]}
+        for data_index in range(len(data))
+    ]
+
     return main_content(
         [
             filter_panel(
@@ -49,10 +52,7 @@ def template_dashboard(example_dropdown="option 1"):
                     Dropdown(
                         label="Example dropdown",
                         id="example_dropdown",
-                        source=[
-                            {"label": metric, "value": metric}
-                            for metric in ["option 1", "option 2"]
-                        ],
+                        source=dropdown_options,
                         value=example_dropdown,
                     ),
                 ],
@@ -72,4 +72,9 @@ def template_dashboard(example_dropdown="option 1"):
 )
 def update_example_commentary(example_dropdown):
     """Example of how to update commentary with selected option."""
-    return format_visualisation_commentary(f"{example_dropdown} selected.")
+
+    # create authority object based on selected code from dropdown and the corresponding name
+    selected_authority = LocalAuthority(
+        example_dropdown, df[df["LA_code"] == example_dropdown]["LA_name"].iloc[0]
+    )
+    return format_visualisation_commentary(f"{selected_authority.name} selected.")
