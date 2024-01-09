@@ -28,8 +28,8 @@ data = {
     # e.g. here two authorities called "LA2" would have different data for different codes
     # this can happen if authority changes type or area but keeps same name.
     # class LocalAuthority can be used to make this clearer.
-    "LA_code": ["E061", "E062", "E071", "E063"],
-    "LA_name": ["LA1", "LA2", "LA3", "LA2"],
+    "LA_code": ["E061", "E062", "E071"],
+    "LA_name": ["LA1", "LA2", "LA3"],
     "Value": [30, 15, 20],
 }
 df = pd.DataFrame(data)
