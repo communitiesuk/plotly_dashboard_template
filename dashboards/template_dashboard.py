@@ -21,8 +21,15 @@ from app import app
 
 from figures.bar_chart import bar_chart
 
+from lib.local_authority import LocalAuthority
+
+authority = LocalAuthority("E061", "LA1")  # example of LocalAuthority class
+
 data = {
-    "Category": ["Category 1", "Category 2", "Category 3"],
+    # authorities should be identified via ONS code rather than name to avoid ambiguity.
+    # class LocalAuthority can be used to make this clearer.
+    "LA_code": ["E061", "E062", "E071"],
+    "LA_name": ["LA1", "LA2", "LA3"],
     "Value": [30, 15, 20],
 }
 df = pd.DataFrame(data)
@@ -31,7 +38,7 @@ df = pd.DataFrame(data)
 def template_dashboard(example_dropdown="option 1"):
     """Create and return the dashboard layout for display in the application."""
 
-    barchart = bar_chart(df, "Category", "Value", color="Category")
+    barchart = bar_chart(df, "LA_code", "Value", color="LA_code")
     barchart_dash = graph(element_id="example bar chart", figure=barchart)
     dashboard_content = [card(barchart_dash)]
 
