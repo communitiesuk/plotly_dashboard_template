@@ -130,3 +130,10 @@ dmypy.json
 .vscode/*
 !.vscode/extensions.json
 !.vscode/launch.json
+
+#Performance files
+/perf
+
+#visual test snapshot outputs
+tests/**/snapshots_failure/*
+tests/**/snapshots_fail**

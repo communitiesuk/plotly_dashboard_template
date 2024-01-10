@@ -17,3 +17,4 @@ playwright
 pytest-playwright
 pixelmatch
 pillow~=10.2
+snakeviz
