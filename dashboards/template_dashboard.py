@@ -28,9 +28,9 @@ data = {
     # e.g. here two authorities called "LA2" would have different data for different codes
     # this can happen if authority changes type or area but keeps same name.
     # class LocalAuthority can be used to make this clearer.
-    "LA_code": ["E061", "E062", "E071"],
-    "LA_name": ["LA1", "LA2", "LA3"],
-    "Value": [30, 15, 20],
+    "LA_code": ["E061", "E062", "E071", "E063"],
+    "LA_name": ["LA1", "LA2", "LA3", "LA2"],
+    "Value": [30, 15, 20, 18],
 }
 df = pd.DataFrame(data)
 
@@ -38,13 +38,13 @@ df = pd.DataFrame(data)
 def template_dashboard(example_dropdown="option 1"):
     """Create and return the dashboard layout for display in the application."""
 
-    barchart = bar_chart(df, "LA_code", "Value", color="LA_code")
+    barchart = bar_chart(df, "LA_name", "Value", color="LA_code")
     barchart_dash = graph(element_id="example bar chart", figure=barchart)
     dashboard_content = [card(barchart_dash)]
 
     dropdown_options = [
         {"label": data["LA_name"][data_index], "value": data["LA_code"][data_index]}
-        for data_index in range(len(data))
+        for data_index in range(len(data["LA_code"]))
     ]
 
     return main_content(
