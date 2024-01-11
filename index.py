@@ -77,8 +77,8 @@ dashboards.add_dashboards(
             pathname="/accessibility",
             function_to_call=accessibility_statement,
             filters=[],
-            hide_from_menu=True
-        )
+            hide_from_menu=True,
+        ),
     ]
 )
 
@@ -155,9 +155,10 @@ def create_missing_filters_for_dashboard(dashboard):
     State(component_id="url", component_property="pathname"),
     State(component_id="url", component_property="search"),
     [
-        Input(component_id=filter_name, component_property="value")
+        State(component_id=filter_name, component_property="value")
         for filter_name in all_filters
     ],
+    Input(component_id="submit-button", component_property="n_clicks"),
 )
 def update_url(
     pathname,

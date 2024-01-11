@@ -1,11 +1,14 @@
 """
 A test bar chart dashboard
 """
-from dash import Output, Input, html
+from dash import Output, Input, State, html
 import pandas as pd
 
 from uk_gov_dash_components.Dropdown import Dropdown
-from gov_uk_dashboards.components.plotly.filter_panel import filter_panel
+from gov_uk_dashboards import colours
+from gov_uk_dashboards.components.plotly.apply_and_reset_filters_buttons import (
+    apply_and_reset_filters_buttons,
+)
 from gov_uk_dashboards.components.plotly.main_content import main_content
 from gov_uk_dashboards.components.plotly.row_component import row_component
 from gov_uk_dashboards.components.plotly.visualisation_title import (
@@ -50,7 +53,7 @@ def template_dashboard(example_dropdown="option 1"):
     return main_content(
         [
             html.H1("Dashboard 1 Page Title"),
-            filter_panel(
+            html.Div(
                 [
                     Dropdown(
                         label="Example dropdown",
@@ -58,7 +61,14 @@ def template_dashboard(example_dropdown="option 1"):
                         source=dropdown_options,
                         value=example_dropdown,
                     ),
+                    apply_and_reset_filters_buttons(),
                 ],
+                className="container-class",
+                style={
+                    "background-color": colours.GovUKColours.LIGHT_GREY.value,
+                    "padding": "20px 20px 10px 20px",
+                    "maxWidth": "800px",
+                },
             ),
             format_visualisation_title("Visualisation title"),
             html.Div(
@@ -71,9 +81,10 @@ def template_dashboard(example_dropdown="option 1"):
 
 @app.callback(
     Output(component_id="example_commentary", component_property="children"),
-    Input(component_id="example_dropdown", component_property="value"),
+    State(component_id="example_dropdown", component_property="value"),
+    Input(component_id="submit-button", component_property="n_clicks"),
 )
-def update_example_commentary(example_dropdown):
+def update_example_commentary(example_dropdown, filters_submitted):
     """Example of how to update commentary with selected option."""
     if not example_dropdown:
         return format_visualisation_commentary(f"No authority selected.")
