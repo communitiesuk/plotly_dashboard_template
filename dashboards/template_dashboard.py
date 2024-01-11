@@ -49,6 +49,7 @@ def template_dashboard(example_dropdown="option 1"):
 
     return main_content(
         [
+            html.H1("Dashboard 1 Page Title"),
             filter_panel(
                 [
                     Dropdown(
