@@ -30,7 +30,7 @@ data = {
     # authorities should be identified via ONS code rather than name to avoid ambiguity.
     # e.g. here two authorities called "LA2" would have different data for different codes
     # this can happen if authority changes type or area but keeps same name.
-    # class LocalAuthority can be used to make this clearer.
+    # class LocalAuthority can be used to make this easier to work with in the code.
     "LA_code": ["E061", "E062", "E071", "E063"],
     "LA_name": ["LA1", "LA2", "LA3", "LA2"],
     "Value": [30, 15, 20, 18],
@@ -84,14 +84,19 @@ def template_dashboard(example_dropdown="option 1"):
     State(component_id="example_dropdown", component_property="value"),
     Input(component_id="submit-button", component_property="n_clicks"),
 )
-def update_example_commentary(example_dropdown, filters_submitted):
+def update_example_commentary(
+    local_authority_code_for_dropdown_selection, filters_submitted
+):
     """Example of how to update commentary with selected option."""
     # pylint: disable = unused-argument
-    if not example_dropdown:
+    if not local_authority_code_for_dropdown_selection:
         return format_visualisation_commentary("No authority selected.")
     # create authority object based on selected code from dropdown and the corresponding name
     selected_authority = LocalAuthority(
-        example_dropdown, df[df["LA_code"] == example_dropdown]["LA_name"].iloc[0]
+        local_authority_code_for_dropdown_selection,
+        df[df["LA_code"] == local_authority_code_for_dropdown_selection][
+            "LA_name"
+        ].iloc[0],
     )
     return format_visualisation_commentary(
         f"{selected_authority.name} ({selected_authority.ons_code}) selected."

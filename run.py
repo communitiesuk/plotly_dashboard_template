@@ -17,14 +17,8 @@ if __name__ == "__main__":
         action=argparse.BooleanOptionalAction,
         help="Profile requests to the perf directory",
     )
-    parser.add_argument(
-        "--test-data",
-        action=argparse.BooleanOptionalAction,
-        help="Use data within the tests/data folder",
-    )
 
     args = parser.parse_args()
-
 
     HOST_REQUIRED_BY_DAP = "0.0.0.0"
     PORT_REQUIRED_BY_DAP = 8080

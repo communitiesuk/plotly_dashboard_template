@@ -3,7 +3,7 @@ from dataclasses import dataclass
 
 
 @dataclass(eq=True)
-class LocalAuthority:  # pylint: disable=too-many-instance-attributes, too-many-arguments
+class LocalAuthority:
     """
     A data class representing a Local Authority
 
