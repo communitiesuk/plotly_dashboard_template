@@ -75,14 +75,10 @@ def assert_valid_snapshot(
 ) -> Callable:
     """Check the page matches the saved snapshot"""
 
-    def visit_page_and_assert_snapshot(
-        url: str,
-        selector: str
-    ):
+    def visit_page_and_assert_snapshot(url: str, selector: str):
         dashboard_utils.start_app()
         page.set_viewport_size({"width": 1600, "height": 1200})
         page.goto(dashboard_utils.dash_duo.server.url + url)
-
 
         page.wait_for_selector(selector)
         sleep(1)

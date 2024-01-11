@@ -9,7 +9,6 @@ from gov_uk_dashboards.components.plotly import (
     paragraph,
     heading1,
     heading2,
-    hidden_filter,
 )
 
 EMAIL_ADDRESS = "team_email@org.domain"
@@ -17,10 +16,7 @@ EMAIL_ADDRESS = "team_email@org.domain"
 
 def accessibility_statement() -> list[Component]:
     "Function to create page to assist accessibility info for user"
-    return main_content(
-        [hidden_filter("submit-button")]
-        + guidance_text()
-    )
+    return main_content(guidance_text())
 
 
 def guidance_text() -> list[Component]:

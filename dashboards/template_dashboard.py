@@ -86,8 +86,9 @@ def template_dashboard(example_dropdown="option 1"):
 )
 def update_example_commentary(example_dropdown, filters_submitted):
     """Example of how to update commentary with selected option."""
+    # pylint: disable = unused-argument
     if not example_dropdown:
-        return format_visualisation_commentary(f"No authority selected.")
+        return format_visualisation_commentary("No authority selected.")
     # create authority object based on selected code from dropdown and the corresponding name
     selected_authority = LocalAuthority(
         example_dropdown, df[df["LA_code"] == example_dropdown]["LA_name"].iloc[0]
