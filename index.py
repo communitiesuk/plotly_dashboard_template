@@ -15,6 +15,7 @@ from gov_uk_dashboards.components.plotly.side_navbar import side_navbar
 from app import app
 from components.header import header
 from dashboards.template_dashboard import template_dashboard
+from dashboards.accessibility_statement import accessibility_statement
 from lib.dashboard_page import DashboardPage
 from lib.dashboard_storage_and_lookup import DashboardStorageAndLookup
 from lib.generate_navbar import generate_side_navbar
@@ -24,6 +25,11 @@ app.title = "Template Dashboard"
 
 app.layout = html.Div(
     [
+        html.A(
+            "Skip to main content",
+            href="#main-content",
+            className="govuk-skip-link",
+        ),
         header(app.title),
         html.Div(
             id="nav-section",
@@ -53,8 +59,7 @@ app.layout = html.Div(
             className="govuk-width-container",
             **{"aria-live": "polite", "aria-atomic": "true"},
         ),
-        footer([dcc.Link("Accessibility statement", href="#")]), # TODO update href with real page
-        # url
+        footer([dcc.Link("Accessibility statement", href="/accessibility")]),
     ]
 )
 dashboards = DashboardStorageAndLookup()
@@ -66,7 +71,14 @@ dashboards.add_dashboards(
             pathname="/dashboard-1",
             function_to_call=template_dashboard,
             filters=["example_dropdown"],
-        )
+        ),
+        DashboardPage(
+            title="Accessibility Statement",
+            pathname="/accessibility",
+            function_to_call=accessibility_statement,
+            filters=[],
+            hide_from_menu=True,
+        ),
     ]
 )
 
@@ -142,16 +154,15 @@ def create_missing_filters_for_dashboard(dashboard):
     Output(component_id="navigation-items", component_property="children"),
     State(component_id="url", component_property="pathname"),
     State(component_id="url", component_property="search"),
+    Input(component_id="submit-button", component_property="n_clicks"),
     [
-        Input(component_id=filter_name, component_property="value")
+        State(component_id=filter_name, component_property="value")
         for filter_name in all_filters
     ],
 )
 def update_url(
-    pathname,
-    query_string,
-    *filter_values,
-):
+    pathname, query_string, filters_submitted, *filter_values
+):  # pylint: disable= unused-argument
     """When the user changes any filter panel elements, update the URL query parameters"""
 
     dashboard = dashboards.get_dashboard_from_pathname(pathname)

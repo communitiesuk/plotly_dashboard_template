@@ -1,8 +1,9 @@
 name: Automated checks
 # on:
-#   pull_request:
-#     branches:
-#       - main # TODO uncomment lines 2-5
+  # workflow_dispatch:
+  # pull_request:
+  #   branches:
+  #     - main # TODO uncomment lines 2-6
 
 env:
   application-name: <application name> # Update name to application name.
@@ -54,4 +55,70 @@ jobs:
           activate-environment: ${{ env.application-name }}
           environment-file: environment.yml
       - name: Execute tests
-        run: python -u -m pytest --headless tests 
+        run: python -u -m pytest --headless tests --ignore=tests/visual/
+
+  # this runs visual tests as Github actions, they have been more stable (less machine dependent - GitHub Actions provides a consistent and isolated environment) this way.
+  visual-tests:
+    name: "Run visual regression tests"
+    runs-on: ubuntu-20.04
+    permissions: write-all
+    defaults:
+      run:
+        shell: bash -l {0}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.head_ref }}
+      - uses: conda-incubator/setup-miniconda@v3
+        with:
+          auto-update-conda: true
+          activate-environment: ${{ env.application-name }}
+          environment-file: environment.yml
+      - name: Ensure browsers are installed
+        run: python -m playwright install --with-deps chromium
+
+      - name: Execute visual tests
+        id: visual-tests
+        run: python -u -m pytest --headless --update-snapshots tests/visual
+
+      - name: Set snapshots-updated variable
+        run: |
+          if [[ `git status --porcelain` ]]; then
+            echo "snapshots-updated=true" >> $GITHUB_ENV
+          else
+            echo "snapshots-updated=false" >> $GITHUB_ENV
+          fi
+      - name: Upload snapshot failures folder
+        uses: actions/upload-artifact@v4
+        if: env.snapshots-updated == 'true'
+        with:
+          name: snapshots_failure_folder
+          path: /home/runner/work/dev_oflog_local_authority_data_explorer/dev_oflog_local_authority_data_explorer/tests/visual/snapshots_failure_folder/
+      - name: Push up updated snapshots
+        if: env.snapshots-updated == 'true'
+        run: |
+          git add .
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git commit -m "Add new snapshots"
+          git push
+      - name: Post comment on PR
+        if: env.snapshots-updated == 'true'
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: `:warning: **The visual tests failed and the snapshots have been updated**
+
+            Please view the differences in the [snapshots_failure folder in the Action summary](https://github.com/communitiesuk/local_government_dashboard/actions/runs/${context.runId}).
+            If you are happy with the changes, you need to pull down the changes locally and then run the following commands in your terminal:
+              *git commit --allow-empty -m "Trigger Build"*
+              *git push*
+            This will run the checks again to allow the PR to be merged (this is needed as although the Action pushes changes to the branch, it does not force a new workflow run).
+            **Note:** If you wish to make further changes, please pull from the branch to get the pushed snapshots.`
+            })

@@ -13,3 +13,8 @@ gov-uk-dashboards~=9.25.0
 uk-gov-dash-components~=1.25.0
 dash[testing]
 chromedriver-autoinstaller
+playwright
+pytest-playwright
+pixelmatch
+pillow~=10.2
+snakeviz
