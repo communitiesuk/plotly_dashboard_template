@@ -1,7 +1,7 @@
 """
 A test bar chart dashboard
 """
-from dash import Output, Input, State, html
+from dash import Output, Input, State, html, dcc
 import pandas as pd
 
 from uk_gov_dash_components.Dropdown import Dropdown
@@ -25,6 +25,7 @@ from app import app
 from figures.bar_chart import bar_chart
 
 from lib.local_authority import LocalAuthority
+from lib.create_download_button import create_download_button
 
 data = {
     # authorities should be identified via ONS code rather than name to avoid ambiguity.
@@ -74,7 +75,9 @@ def template_dashboard(example_dropdown="option 1"):
             html.Div(
                 id="example_commentary",
             ),
+            create_download_button("Download Data"),
             row_component(dashboard_content),
+            dcc.Download(id="download-data-as-csv"),
         ],
     )
 
@@ -101,3 +104,29 @@ def update_example_commentary(
     return format_visualisation_commentary(
         f"{selected_authority.name} ({selected_authority.ons_code}) selected."
     )
+
+
+@app.callback(
+    Output(component_id="download-data-as-csv", component_property="data"),
+    Input(component_id="download-button", component_property="n_clicks"),
+)
+def download_data(
+    number_of_clicks: int,
+):
+    """download local plan data"""
+
+    if number_of_clicks > 0:
+        df_to_download = df.rename(
+            columns={
+                "LA_code": "Local authority code",
+                "LA_name": "Local authority name",
+                "Value": "Data value",
+            }
+        )
+        return dcc.send_data_frame(
+            df_to_download.to_csv,
+            "data.csv",
+            header=True,
+            index=False,
+        )
+    return None
