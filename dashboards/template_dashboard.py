@@ -66,7 +66,7 @@ def template_dashboard(example_dropdown="option 1"):
                 ],
                 className="container-class",
                 style={
-                    "background-color": colours.GovUKColours.LIGHT_GREY.value,
+                    "backgroundColor": colours.GovUKColours.LIGHT_GREY.value,
                     "padding": "20px 20px 10px 20px",
                     "maxWidth": "800px",
                 },

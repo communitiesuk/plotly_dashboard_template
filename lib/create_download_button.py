@@ -16,5 +16,5 @@ def create_download_button(button_text: str):
             button_text,
             button_id="download-button",
         ),
-        style={"display": "flex", "justify-content": "flex-end", "padding": "0px"},
+        style={"display": "flex", "justifyContent": "flex-end", "padding": "0px"},
     )
