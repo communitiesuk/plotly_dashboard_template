@@ -1,0 +1,23 @@
+{
+	"video": true,
+	"baseUrl": "https://***PAGE_URL***",
+	"lighthouse": {
+		"thresholds": {
+			"accessibility": 100,
+			"best-practices": 100
+		},
+		"options": {
+			"formFactor": "desktop",
+			"screenEmulation": {
+				"disabled": true
+			}
+		}
+	},
+	"reporter": "mochawesome",
+	"reporterOptions": {
+		"reportDir": "cypress/results",
+		"overwrite": false,
+		"html": false,
+		"json": true
+	}
+}

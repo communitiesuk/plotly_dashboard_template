@@ -1,0 +1,51 @@
+# Workflow to run accessibility tests after merging using Cypress 
+# (https://docs.cypress.io/guides/end-to-end-testing/testing-your-app)
+
+name: Cypress accessibility checks & Copy code to public repo
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+env:
+  application-name: <application name> # Update name to application name.
+
+jobs:
+  cypress-run:
+    name: "Cypress Accessibility Checks"
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    environment: 'cypress'
+    defaults:
+      run:
+        shell: bash -l {0}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Cypress run
+        uses: cypress-io/github-action@v6
+        with:
+          browser: chrome
+          headless: true
+          working-directory: ./e2e
+        env:
+          CYPRESS_BASE_URL: ${{ secrets.CYPRESS_BASE_URL }}
+      - name: Upload HTML reports
+        uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: cypress-reports
+          path: ./e2e/cypress/results/*.html
+      - name: Upload screenshots
+        uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: cypress-screenshots
+          path: ./e2e/cypress/screenshots
+      - name: Upload videos
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: cypress-videos
+          path: ./e2e/cypress/videos
