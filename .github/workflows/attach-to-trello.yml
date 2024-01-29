@@ -3,10 +3,10 @@
 
 # uncomment if desirable
 # name: Attach to Trello
-on:
-  pull_request:
-    types: [opened, reopened, edited]
-jobs:
+# on:
+#   pull_request:
+#     types: [opened, reopened, edited]
+# jobs:
   attach-trello:
     runs-on: ubuntu-latest
     name: Find trello link and attach to card
