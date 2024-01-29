@@ -1,11 +1,11 @@
 # Latest version of plotly can be found at https://github.com/plotly/plotly.py/releases .
 # Version is hardcoded to ensure uniformity no matter the platform.
 plotly==5.18.0
-pandas==2.1.4
+pandas==2.2.0
 dash~=2.14
-pytest==7.4.4
+pytest==8.0.0
 pylint==3.0.3
-black==23.12.0
+black==24.1.1
 black[jupyter]
 pyodbc==5.0.1
 numpy==1.26.3

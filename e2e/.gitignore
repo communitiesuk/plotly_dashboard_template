@@ -1,0 +1,7 @@
+node_modules/
+cypress/results/
+cypress/screenshots/
+mochawesome.json
+report/mochawesome.json
+e2e-reports/
+.env
