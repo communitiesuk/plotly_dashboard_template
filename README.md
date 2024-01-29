@@ -94,6 +94,12 @@ git config --global user.email "Your.Name@levellingup.gov.uk"
 
     **Note:** Terminal can only handle one command at a time, if the python server is running the terminal will not handle any further commands. To restart the server use `python run.py`
 
+### Github Action workflows
+The `.github` folder contains a range of workflows that may be useful in a new project. They will need updating to run correctly within Github. The files should be deleted if the specific workflow is not desired. 
+- `after-merging.yml` can be used to run accessibility checks on the dashboard via [Cypress](https://docs.cypress.io/guides/overview/why-cypress). This requires a [Github secret](https://docs.github.com/en/actions/security-guides/using-secrets-in-github-actions) to be set, `secrets.CYPRESS_BASE_URL`. 
+- `attach-to-trello.yml` is used to attach information about a pull request to its relevant [Trello](https://trello.com) ticket. Trello key and token Github secrets are required for the Action to be able to connect to Trello. 
+- `check-before-merging.yml` runs the Python formatter, linter and tests on each pull request. It is advised that Github is configured so that PRs can't be merged unless these pass.
+- `dependabot-pr-merge.yml` approves and merges PRs created by dependabot that are minor or patch changes to the current version of a package specified in `requirements.txt`. 
 
 
 ## Customisation 
