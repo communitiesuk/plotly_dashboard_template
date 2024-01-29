@@ -1,7 +1,8 @@
 # Workflow to attach information about a Github pull request (PR) to its appropriate Trello ticket
 # by including a link to the Trello ticket in the PR description.
 
-name: Attach to Trello
+# uncomment if desirable
+# name: Attach to Trello
 on:
   pull_request:
     types: [opened, reopened, edited]
