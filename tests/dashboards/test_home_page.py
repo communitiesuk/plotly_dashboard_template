@@ -3,6 +3,7 @@ from dash.testing.composite import DashComposite
 
 from tests.dashboards.dashboard_test_utils import DashboardTestUtils
 
+
 def test_home_page_loads_without_error(
     dash_duo: DashComposite, dashboard_utils: DashboardTestUtils
 ):
