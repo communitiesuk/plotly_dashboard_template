@@ -1,7 +1,7 @@
 {
-  "name": "dash-template-e2e",
+  "name": "dash-template-e2e#UPDATE",
   "version": "0.0.1",
-  "description": "Testing framework for template dashboard",
+  "description": "Testing framework for template dashboard #UPDATE",
   "main": "index.js",
   "scripts": {
     "e2e:audit": "cypress open",

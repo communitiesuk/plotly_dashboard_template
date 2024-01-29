@@ -21,7 +21,7 @@ from lib.dashboard_storage_and_lookup import DashboardStorageAndLookup
 from lib.generate_navbar import generate_side_navbar
 from lib.url import selected_filters, dict_to_query_string
 
-app.title = "Template Dashboard"
+app.title = "Template Dashboard" #UPDATE
 
 app.layout = html.Div(
     [
@@ -39,7 +39,7 @@ app.layout = html.Div(
             [
                 phase_banner_with_feedback(
                     phase="alpha",
-                    # Add an e-mail address for people to provide feedback.
+                    # #UPDATE Add an e-mail address for people to provide feedback.
                     feedback_link="mailto:<contact e-mail address>?"
                     f"subject=Feedback on {app.title}",
                     link_id="feedback-link",
@@ -116,8 +116,8 @@ def display_page(pathname, query_string):
                 identifier="mobile-navigation-items",
                 nav_id="mobile-nav-section",
             ),
-            "mailto:<contact e-mail address>?"  # Add an e-mail address for people to provide
-            # feedback.
+            "mailto:<contact e-mail address>?"  # #UPDATE Add an e-mail address
+            # for people to provide feedback.
             f"subject=Feedback on {app.title} - {dashboard.title}",
         )
 
@@ -129,8 +129,8 @@ def display_page(pathname, query_string):
                 dashboard.protective_marking,
                 dashboard_container([dashboard.display_dashboard(query_string)]),
                 [],
-                "mailto:<contact e-mail address>?"  # Add an e-mail address for people to provide
-                # feedback.
+                "mailto:<contact e-mail address>?"  # #UPDATE Add an e-mail address
+                # for people to provide feedback.
                 f"subject=Feedback on {app.title} - {dashboard.title}",
             )
 

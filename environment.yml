@@ -1,4 +1,4 @@
-name: plotly_dashboard_template # Replace with your dashboard name
+name: plotly_dashboard_template # Replace with your dashboard name #UPDATE
 dependencies:
   - python=3.9
   - pip

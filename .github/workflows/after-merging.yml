@@ -9,7 +9,7 @@ on:
       - main
 
 env:
-  application-name: <application name> # Update name to application name.
+  application-name: <application name> # #UPDATE name to application name.
 
 jobs:
   cypress-run:
