@@ -13,12 +13,12 @@
 			"justMyCode": true
 		},
 		{
-			"name": "Dash",
+			"name": "Template Dash Application",
 			"type": "python",
 			"request": "launch",
 			"program": "${workspaceFolder}\\run.py",
 			"console": "integratedTerminal",
-			"envFile": "${workspaceFolder}/.env",
+			"envFile": "${workspaceFolder}/.environment.yml",
 			"justMyCode": true
 		}
 	]

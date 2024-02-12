@@ -1,6 +1,7 @@
 """
 Create paths to serve different dashboards.  Add new paths in the display_page callback.
 """
+
 import logging
 import os
 
@@ -11,9 +12,9 @@ from gov_uk_dashboards.components.plotly.dashboard_container import dashboard_co
 from gov_uk_dashboards.components.plotly.phase_banner import phase_banner_with_feedback
 from gov_uk_dashboards.components.plotly.footer import footer
 from gov_uk_dashboards.components.plotly.side_navbar import side_navbar
+from gov_uk_dashboards.components.plotly.header import header
 
 from app import app
-from components.header import header
 from dashboards.template_dashboard import template_dashboard
 from dashboards.accessibility_statement import accessibility_statement
 from lib.dashboard_page import DashboardPage
@@ -21,7 +22,7 @@ from lib.dashboard_storage_and_lookup import DashboardStorageAndLookup
 from lib.generate_navbar import generate_side_navbar
 from lib.url import selected_filters, dict_to_query_string
 
-app.title = "Template Dashboard" #UPDATE
+app.title = "Template Dashboard"  # UPDATE
 
 app.layout = html.Div(
     [
