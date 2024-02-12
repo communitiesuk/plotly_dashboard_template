@@ -13,7 +13,7 @@
 			"justMyCode": true
 		},
 		{
-			"name": "Template Dash Application",
+			"name": "Template Dash Application", // #UPDATE
 			"type": "python",
 			"request": "launch",
 			"program": "${workspaceFolder}\\run.py",
