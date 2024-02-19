@@ -3,7 +3,7 @@
 plotly==5.19.0
 pandas==2.2.0
 dash~=2.15
-pytest==8.0.0
+pytest==8.0.1
 pylint==3.0.3
 black==24.2.0
 black[jupyter]
