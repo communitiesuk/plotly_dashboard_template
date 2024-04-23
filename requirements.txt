@@ -9,7 +9,7 @@ black==24.4.0
 black[jupyter]
 pyodbc==5.1.0
 numpy==1.26.4
-gov-uk-dashboards~=9.30.1
+gov-uk-dashboards~=9.31.0
 uk-gov-dash-components~=1.25.0
 dash[testing]
 chromedriver-autoinstaller
