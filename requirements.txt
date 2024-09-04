@@ -2,7 +2,7 @@
 # Version is hardcoded to ensure uniformity no matter the platform.
 plotly==5.24.0
 pandas==2.2.2
-dash~=2.17
+dash~=2.18
 pytest==8.3.2
 pylint==3.2.7
 black==24.8.0
