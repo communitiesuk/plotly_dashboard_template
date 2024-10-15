@@ -16,5 +16,5 @@ chromedriver-autoinstaller
 playwright
 pytest-playwright
 pixelmatch
-pillow~=10.4
+pillow~=11.0
 snakeviz
