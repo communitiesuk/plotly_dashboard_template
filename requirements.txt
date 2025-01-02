@@ -10,7 +10,7 @@ black[jupyter]
 pyodbc==5.2.0
 numpy==2.2.1
 gov-uk-dashboards~=13.0.0
-uk-gov-dash-components~=1.29.0
+uk-gov-dash-components~=1.29.2
 dash[testing]
 chromedriver-autoinstaller
 playwright
