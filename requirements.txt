@@ -8,7 +8,7 @@ pylint==3.3.4
 black==25.1.0
 black[jupyter]
 pyodbc==5.2.0
-numpy==2.2.3
+numpy==2.2.4
 gov-uk-dashboards~=13.4.0
 uk-gov-dash-components~=1.29.4
 dash[testing]
