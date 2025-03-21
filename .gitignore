@@ -137,3 +137,8 @@ dmypy.json
 #visual test snapshot outputs
 tests/**/snapshots_failure/*
 tests/**/snapshots_fail**
+
+# Dashboard data files
+/data/**/*.csv
+/data/**/*.geojson
+/data/**/*.json
