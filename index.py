@@ -6,13 +6,13 @@ import logging
 import os
 
 from dash import dcc, html, Input, Output, State
-from gov_uk_dashboards.components.plotly.filter_panel import hidden_filter
-from gov_uk_dashboards.components.plotly.banners import message_banner
-from gov_uk_dashboards.components.plotly.dashboard_container import dashboard_container
-from gov_uk_dashboards.components.plotly.phase_banner import phase_banner_with_feedback
-from gov_uk_dashboards.components.plotly.footer import footer
-from gov_uk_dashboards.components.plotly.side_navbar import side_navbar
-from gov_uk_dashboards.components.plotly.header import header
+from gov_uk_dashboards.components.dash.filter_panel import hidden_filter
+from gov_uk_dashboards.components.dash.banners import message_banner
+from gov_uk_dashboards.components.dash.dashboard_container import dashboard_container
+from gov_uk_dashboards.components.dash.phase_banner import phase_banner_with_feedback
+from gov_uk_dashboards.components.dash.footer import footer
+from gov_uk_dashboards.components.dash.side_navbar import side_navbar
+from gov_uk_dashboards.components.dash.header import header
 
 from app import app
 from dashboards.template_dashboard import template_dashboard
