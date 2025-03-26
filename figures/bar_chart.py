@@ -11,7 +11,7 @@ def bar_chart(
     color=None,
 ):
     """Create and return a bar chart visualisation from the Plotly Express library
-        Plotly Graph Objects is advised for extra customisation."""
+    Plotly Graph Objects is advised for extra customisation."""
 
     fig = px.bar(
         dataframe,

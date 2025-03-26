@@ -6,19 +6,19 @@ import pandas as pd
 
 from uk_gov_dash_components.Dropdown import Dropdown
 from gov_uk_dashboards import colours
-from gov_uk_dashboards.components.plotly.apply_and_reset_filters_buttons import (
+from gov_uk_dashboards.components.dash.apply_and_reset_filters_buttons import (
     apply_and_reset_filters_buttons,
 )
-from gov_uk_dashboards.components.plotly.main_content import main_content
-from gov_uk_dashboards.components.plotly.row_component import row_component
-from gov_uk_dashboards.components.plotly.visualisation_title import (
+from gov_uk_dashboards.components.dash.main_content import main_content
+from gov_uk_dashboards.components.dash.row_component import row_component
+from gov_uk_dashboards.components.dash.visualisation_title import (
     format_visualisation_title,
 )
-from gov_uk_dashboards.components.plotly.visualisation_commentary import (
+from gov_uk_dashboards.components.dash.visualisation_commentary import (
     format_visualisation_commentary,
 )
-from gov_uk_dashboards.components.plotly.card import card
-from gov_uk_dashboards.components.plotly.graph import graph
+from gov_uk_dashboards.components.dash.card import card
+from gov_uk_dashboards.components.dash.graph import graph
 
 from app import app
 
