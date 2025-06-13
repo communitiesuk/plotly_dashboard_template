@@ -70,7 +70,7 @@ dashboards.add_dashboards(
     [
         DashboardPage(
             title="Dashboard 1",
-            pathname=DASHBOARD_1,
+            pathname="/dashboard-1",
             function_to_call=template_dashboard,
             filters=["example_dropdown"],
         ),
