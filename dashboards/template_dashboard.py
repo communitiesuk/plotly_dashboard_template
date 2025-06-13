@@ -3,7 +3,7 @@ A test bar chart dashboard
 """
 
 from dash import Output, Input, State, html, dcc
-import pandas as pd
+import polars as pl
 
 from uk_gov_dash_components.Dropdown import Dropdown
 from gov_uk_dashboards import colours
@@ -37,7 +37,7 @@ data = {
     "LA_name": ["LA1", "LA2", "LA3", "LA2"],
     "Value": [30, 15, 20, 18],
 }
-df = pd.DataFrame(data)
+df = pl.DataFrame(data)
 
 
 def template_dashboard(example_dropdown="option 1"):
