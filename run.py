@@ -23,6 +23,11 @@ if __name__ == "__main__":
 
     HOST_REQUIRED_BY_DAP = "0.0.0.0"
     PORT_REQUIRED_BY_DAP = 8080
+    
+    if args.test_data:
+        print("**** Starting server with test data ****")
+        os.environ["DATA_FOLDER_LOCATION"] = "tests/"
+        os.environ["STAGE"] = "testing"
 
     if args.profile:
         print("**** Starting server with profiling enabled ****")
