@@ -6,7 +6,7 @@ on:
       - main # TODO uncomment lines 2-6
 
 env:
-  application-name: <application name> # #UPDATE name to application name.
+  application-name: <application-name> # #UPDATE name to application name.
 
 jobs:
   format:
