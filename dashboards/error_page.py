@@ -1,4 +1,5 @@
 """error"""
+
 from dash import html
 
 from gov_uk_dashboards.components.dash import main_content

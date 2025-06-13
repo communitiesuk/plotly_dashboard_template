@@ -1,4 +1,5 @@
 """DashboardPage"""
+
 from dataclasses import dataclass
 from typing import Callable
 from lib.url import selected_filters

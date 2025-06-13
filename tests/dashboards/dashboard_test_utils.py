@@ -1,6 +1,7 @@
 """
 Test utils for dashboard testing
 """
+
 import dash
 from dash.testing.composite import DashComposite
 

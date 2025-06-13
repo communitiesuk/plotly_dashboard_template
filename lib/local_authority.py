@@ -1,4 +1,5 @@
 """LocalAuthority class"""
+
 from dataclasses import dataclass
 
 
