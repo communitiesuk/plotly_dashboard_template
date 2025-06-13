@@ -1,6 +1,7 @@
 """
 A test bar chart dashboard
 """
+
 from dash import Output, Input, State, html, dcc
 import pandas as pd
 

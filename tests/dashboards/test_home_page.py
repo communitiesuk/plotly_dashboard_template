@@ -1,4 +1,5 @@
 """Integration test for home page"""
+
 from dash.testing.composite import DashComposite
 
 from tests.dashboards.dashboard_test_utils import DashboardTestUtils

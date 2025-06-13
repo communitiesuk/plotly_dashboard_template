@@ -1,4 +1,5 @@
 """generate_navbar"""
+
 from dash import html
 
 from gov_uk_dashboards.components.plotly.side_navbar import (
@@ -22,14 +23,16 @@ def generate_side_navbar(
         return not dash.hide_from_menu
 
     navbar_links = [
-        side_navbar_link_active(
-            page.title,
-            href=page.pathname + query_string,
-        )
-        if page is cur_page
-        else side_navbar_link(
-            page.title,
-            href=page.pathname + query_string,
+        (
+            side_navbar_link_active(
+                page.title,
+                href=page.pathname + query_string,
+            )
+            if page is cur_page
+            else side_navbar_link(
+                page.title,
+                href=page.pathname + query_string,
+            )
         )
         for page in filter(exclude_hidden_from_menu, dashboards.get_dashboards())
     ]

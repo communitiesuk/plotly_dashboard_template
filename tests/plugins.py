@@ -1,4 +1,5 @@
 """Pytest automatically loads this file before executing tests"""
+
 import os
 from io import BytesIO
 from pathlib import Path

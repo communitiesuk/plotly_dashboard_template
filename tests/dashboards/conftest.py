@@ -1,4 +1,5 @@
 """Pytest automatically loads this file before executing tests"""
+
 # pylint: disable=unused-import
 from tests.plugins import (
     data_folder_location,

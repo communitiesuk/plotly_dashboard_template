@@ -1,6 +1,7 @@
 """
 A page to give the accessibility statement to the user.
 """
+
 from dash import html
 from dash.development.base_component import Component
 

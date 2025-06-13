@@ -1,4 +1,5 @@
 """Utils for running the visual regression tests"""
+
 from pathlib import Path
 from typing import Any
 import shutil

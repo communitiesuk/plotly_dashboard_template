@@ -1,6 +1,7 @@
 """
 The entry point for the application to be run from the command line.
 """
+
 import argparse
 import os
 

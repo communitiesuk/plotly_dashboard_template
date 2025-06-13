@@ -1,4 +1,5 @@
 """error"""
+
 from dash import html
 
 from gov_uk_dashboards.components.plotly.main_content import main_content
