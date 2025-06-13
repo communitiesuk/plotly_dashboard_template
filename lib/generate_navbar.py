@@ -2,7 +2,7 @@
 
 from dash import html
 
-from gov_uk_dashboards.components.plotly.side_navbar import (
+from gov_uk_dashboards.components.dash.side_navbar import (
     side_navbar_link,
     side_navbar_link_active,
 )

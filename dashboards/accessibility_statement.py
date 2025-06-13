@@ -5,7 +5,7 @@ A page to give the accessibility statement to the user.
 from dash import html
 from dash.development.base_component import Component
 
-from gov_uk_dashboards.components.plotly import (
+from gov_uk_dashboards.components.dash import (
     main_content,
     paragraph,
     heading1,
