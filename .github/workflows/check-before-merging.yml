@@ -11,7 +11,7 @@ env:
 jobs:
   format:
     name: "Check code formatting"
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
     defaults:
       run:
         shell: bash -l {0}
@@ -27,7 +27,7 @@ jobs:
 
   lint:
     name: "Check code for linting errors"
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
     defaults:
       run:
         shell: bash -l {0}
@@ -43,7 +43,7 @@ jobs:
 
   test:
     name: "Run tests"
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
     defaults:
       run:
         shell: bash -l {0}
@@ -60,7 +60,7 @@ jobs:
   # this runs visual tests as Github actions, they have been more stable (less machine dependent - GitHub Actions provides a consistent and isolated environment) this way.
   visual-tests:
     name: "Run visual regression tests"
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
     permissions: write-all
     defaults:
       run:
