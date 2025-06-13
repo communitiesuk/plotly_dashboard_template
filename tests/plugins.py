@@ -3,14 +3,14 @@
 import os
 from io import BytesIO
 from pathlib import Path
-from typing import Callable, Any
+from typing import Callable, Any, Optional
 from time import sleep
 import chromedriver_autoinstaller as chromedriver
 from playwright.sync_api import Page
 from PIL import Image, ImageDraw, ImageFont
 import pytest
 
-from tests.dashboards.dashboard_test_utils import DashboardTestUtils
+from tests.integration.dashboard_test_utils import DashboardTestUtils
 from tests.visual.visual_test_utils import (
     save_failed_snapshot_comparison_images,
     images_are_same,
@@ -29,12 +29,67 @@ def data_folder_location():
     See PyTest docs on the yield
     https://docs.pytest.org/en/7.1.x/how-to/fixtures.html#yield-fixtures-recommended
     """
-    os.environ["STAGE"] = "testing"
+    if os.environ.get("USE_REAL_DATA") != "true":
+        os.environ["STAGE"] = "testing"
+        tests_dashboards_folder = os.path.dirname(__file__)
+        os.environ["DATA_FOLDER_LOCATION"] = tests_dashboards_folder
 
-    tests_dashboards_folder = os.path.dirname(__file__)
-    os.environ["DATA_FOLDER_LOCATION"] = tests_dashboards_folder
-    yield
-    del os.environ["DATA_FOLDER_LOCATION"]
+    try:
+        yield
+    finally:
+        if "DATA_FOLDER_LOCATION" in os.environ:
+            del os.environ["DATA_FOLDER_LOCATION"]
+
+
+@pytest.fixture(
+    autouse=True,
+    params=["real"] if os.getenv("USE_REAL_DATA") == "true" else ["test", "real"],
+)
+def data_tests_folder_location(request):
+    """
+    If env variable USE_REAL_DATA=="true" fixture uses real data directory only.
+
+    Otherwise:
+    - fixture will toggle between the test and real data directories depending on
+        the `request.param`.
+    - Sets the DATA_FOLDER_LOCATION env variable for test data.
+    - If DATA_FOLDER_LOCATION is set the DATA_FOLDER_LOCATION is used by absolute_path to specify
+        where data files are located.
+    - Yields the test data folder for data_tests when the real data folder does not exist
+        (as in github), but yields real and test data folders when both exist.
+
+    Note: to see which tests are being skipped and the reason, run:
+    python -u -m pytest <test_location> -ra -v
+
+    See PyTest docs on the yield
+    https://docs.pytest.org/en/7.1.x/how-to/fixtures.html#yield-fixtures-recommended
+    """
+
+    if request.param == "real":
+        if os.path.exists("data/housing"):
+            pass
+        else:
+            pytest.skip(
+                "Real data directory 'data/housing' not found. Skipping test for real data."
+            )
+
+    else:  # request.param == "test"
+        os.environ["STAGE"] = "testing"
+        tests_dashboards_folder = os.path.dirname(__file__)
+        os.environ["DATA_FOLDER_LOCATION"] = tests_dashboards_folder
+        if os.path.exists(f"{tests_dashboards_folder}/data/housing"):
+            pass
+        else:
+            pytest.skip(
+                f"Test data directory '{tests_dashboards_folder}/data/housing' not found."
+                "Skipping test for test data."
+            )
+
+    try:
+        yield
+    finally:
+        if "DATA_FOLDER_LOCATION" in os.environ:
+            del os.environ["DATA_FOLDER_LOCATION"]
 
 
 @pytest.fixture(scope="session", autouse=True)
@@ -76,13 +131,84 @@ def assert_valid_snapshot(
 ) -> Callable:
     """Check the page matches the saved snapshot"""
 
-    def visit_page_and_assert_snapshot(url: str, selector: str):
+    def handle_tabs(tab_to_select):
+        # wait for tabs that are not selected and select all tabs that match tab_to_select
+        unselected_tab_class = ".tab-button"
+        target_tab_selector = f'{unselected_tab_class}:has-text("{tab_to_select}")'
+        page.wait_for_selector(target_tab_selector)
+        target_tabs = page.query_selector_all(target_tab_selector)
+        for tab in target_tabs:
+            tab.click()
+
+    def handle_accordions():
+        # wait for accordions and then open all accordions that are closed
+        closed_accordion_class = ".govuk-accordion-nav__chevron--down"
+        accordion_button_selector = ".accordion-button"
+        page.wait_for_selector(accordion_button_selector)
+        closed_accordions = page.query_selector_all(closed_accordion_class)
+        for accordion in closed_accordions:
+            accordion.click()
+
+    def handle_details():
+        # Wait for all detail components to be visible on the page
+        detail_component_selector = ".govuk-details"
+        page.wait_for_selector(detail_component_selector)
+
+        # Get all detail components
+        detail_components = page.query_selector_all(detail_component_selector)
+
+        # Iterate over each detail component and perform the desired action
+        for detail_component in detail_components:
+            detail_component.click()
+
+        # go back to top
+        # page.focus(".govuk-header__content")
+        page.hover(".govuk-header__content")
+        sleep(1)
+
+    def handle_navbar_sections():
+        navbar = page.locator("#navigation-items")  # Target the desktop navbar by ID
+        page.wait_for_selector("#navigation-items")
+        navbar_groups = navbar.locator(
+            ".moj-side-navigation__item--collapsed"
+        ).all_inner_texts()  # identify navbar groups through class
+
+        for group in navbar_groups:
+            item = navbar.get_by_text(
+                group, exact=True
+            )  # Search for the item by its text inside that navbar
+            item.click()
+
+    def visit_page_and_assert_snapshot(
+        url: str,
+        selector: str,
+        page_with_accordions: bool = False,
+        page_with_tabs: bool = False,
+        tab_to_select: Optional[str] = None,
+        page_with_details: bool = False,
+        expand_all_navbar_sections: bool = False,
+    ):
         dashboard_utils.start_app()
-        page.set_viewport_size({"width": 1600, "height": 1200})
+        page.set_viewport_size({"width": 1920, "height": 1200})
         page.goto(dashboard_utils.dash_duo.server.url + url)
+        page.evaluate(
+            "window.scrollTo(0, 0)"
+        )  # add 09/01/25 to try fix sticky banner visual test bug
+
+        if page_with_tabs:
+            handle_tabs(tab_to_select)
+
+        if page_with_accordions:
+            handle_accordions()
+
+        if page_with_details:
+            handle_details()
+
+        if expand_all_navbar_sections:
+            handle_navbar_sections()
 
         page.wait_for_selector(selector)
-        sleep(1)
+        sleep(6)
         assert_snapshot(page.screenshot(full_page=True, scale="css"))
 
     return visit_page_and_assert_snapshot

@@ -1,11 +1,11 @@
-"""Integration test for home page"""
+"""Integration test for landing page"""
 
 from dash.testing.composite import DashComposite
 
-from tests.dashboards.dashboard_test_utils import DashboardTestUtils
+from tests.integration.dashboard_test_utils import DashboardTestUtils
 
 
-def test_home_page_loads_without_error(
+def test_landing_page_loads_without_error(
     dash_duo: DashComposite, dashboard_utils: DashboardTestUtils
 ):
     """A smoke test to make sure the dashboard loads and has no error messages (exceptions)"""

@@ -5,6 +5,7 @@ Create paths to serve different dashboards.  Add new paths in the display_page c
 import logging
 import os
 
+from constants import ACCESSIBILITY, DASHBOARD_1
 from dash import dcc, html, Input, Output, State
 from gov_uk_dashboards.components.dash.filter_panel import hidden_filter
 from gov_uk_dashboards.components.dash.banners import message_banner
@@ -75,7 +76,7 @@ dashboards.add_dashboards(
         ),
         DashboardPage(
             title="Accessibility Statement",
-            pathname="/accessibility",
+            pathname=ACCESSIBILITY,
             function_to_call=accessibility_statement,
             filters=[],
             hide_from_menu=True,
