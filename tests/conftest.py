@@ -5,6 +5,7 @@ from typing import Any
 
 os.environ["STAGE"] = "testing"
 
+
 def pytest_addoption(parser: Any) -> None:
     """Add the playwright command arguments to pytest"""
     group = parser.getgroup("playwright-snapshot", "Playwright Snapshot")

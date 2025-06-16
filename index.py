@@ -5,7 +5,6 @@ Create paths to serve different dashboards.  Add new paths in the display_page c
 import logging
 import os
 
-from constants import ACCESSIBILITY, DASHBOARD_1
 from dash import dcc, html, Input, Output, State
 from gov_uk_dashboards.components.dash.filter_panel import hidden_filter
 from gov_uk_dashboards.components.dash.banners import message_banner
@@ -14,6 +13,7 @@ from gov_uk_dashboards.components.dash.phase_banner import phase_banner_with_fee
 from gov_uk_dashboards.components.dash.footer import footer
 from gov_uk_dashboards.components.dash.side_navbar import side_navbar
 from gov_uk_dashboards.components.dash.header import header
+from constants import ACCESSIBILITY
 
 from app import app
 from dashboards.template_dashboard import template_dashboard

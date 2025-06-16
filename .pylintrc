@@ -13,6 +13,7 @@ disable=duplicate-code
 # We have several methods with >5 arguments
 # Ideally these would be refactored, instead the max has been bumped 
 max-args = 7
+max-positional-arguments = 7
 
 # Load up this C package when linting so that pylint can generate a list
 # of valid methods is exposes.

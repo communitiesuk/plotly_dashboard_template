@@ -20,3 +20,4 @@ pillow~=11.2
 snakeviz
 werkzeug
 python-dateutil>=2.8.0
+pydantic
