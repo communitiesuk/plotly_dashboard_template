@@ -23,7 +23,7 @@ from lib.dashboard_storage_and_lookup import DashboardStorageAndLookup
 from lib.generate_navbar import generate_side_navbar
 from lib.url import selected_filters, dict_to_query_string
 
-app.title = "Template Dashboard"  # UPDATE
+app.title = "Template Dashboard"  #UPDATE
 
 app.layout = html.Div(
     [

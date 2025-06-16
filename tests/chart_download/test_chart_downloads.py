@@ -11,7 +11,7 @@ from dash.testing.composite import DashComposite
 from tests.integration.dashboard_test_utils import DashboardTestUtils
 
 
-# UPDATE enable by removing x when ready
+#UPDATE enable by removing x when ready
 @pytest.mark.parametrize(
     "pathname, button_id, sensitivity",
     [
