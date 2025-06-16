@@ -69,8 +69,6 @@ def inferred_df_has_correct_column_types(csv_filename: str, schema: Type[BaseMod
     }
 
     df = load_data(absolute_path(f"data/housing/{csv_filename}"), "csv")
-    print(df.schema)
-    print(expected_schema)
     assert df.schema == expected_schema
 
 
@@ -88,9 +86,7 @@ def df_has_valid_schema(csv_filename: str, schema: Type[BaseModel]):
         try:
             schema(**row)  # Pydantic validation
         except ValidationError as e:
-            print(row)
             valid_rows = False
-            print(e)
             break
     assert valid_rows
 
