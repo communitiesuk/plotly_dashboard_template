@@ -1,6 +1,9 @@
 """Pytest automatically loads this file before executing tests"""
 
+import os
 from typing import Any
+
+os.environ["STAGE"] = "testing"
 
 
 def pytest_addoption(parser: Any) -> None:

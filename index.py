@@ -13,6 +13,7 @@ from gov_uk_dashboards.components.dash.phase_banner import phase_banner_with_fee
 from gov_uk_dashboards.components.dash.footer import footer
 from gov_uk_dashboards.components.dash.side_navbar import side_navbar
 from gov_uk_dashboards.components.dash.header import header
+from constants import ACCESSIBILITY
 
 from app import app
 from dashboards.template_dashboard import template_dashboard
@@ -75,7 +76,7 @@ dashboards.add_dashboards(
         ),
         DashboardPage(
             title="Accessibility Statement",
-            pathname="/accessibility",
+            pathname=ACCESSIBILITY,
             function_to_call=accessibility_statement,
             filters=[],
             hide_from_menu=True,
