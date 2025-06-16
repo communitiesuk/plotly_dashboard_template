@@ -87,6 +87,7 @@ def df_has_valid_schema(csv_filename: str, schema: Type[BaseModel]):
             schema(**row)  # Pydantic validation
         except ValidationError as e:
             valid_rows = False
+            print(e)
             break
     assert valid_rows
 
