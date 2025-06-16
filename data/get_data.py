@@ -142,6 +142,7 @@ class GenericDataQuery:
     # @staticmethod
     def get_data_from_cds(self):
         """Static method to pull data from CDS for dashboard development."""
+        # print for debugging
         print(self.filename)
 
         conn = (
@@ -174,6 +175,7 @@ class GeojsonDataQuery:
     # @staticmethod
     def get_data_from_cds(self):
         """Static method to pull data from CDS for dashboard development."""
+        # print for debugging
         print(self.filename)
 
         conn = (
