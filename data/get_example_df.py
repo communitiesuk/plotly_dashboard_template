@@ -9,7 +9,7 @@ from lib.absolute_path import absolute_path
 
 
 @track_cache
-def get_examople_df() -> pl.DataFrame:
+def get_example_df() -> pl.DataFrame:
     """Load the CDS data or CSV containing example data into a DataFrame"""
     csv_location = absolute_path("data/folder/example.csv")
     dataframe = load_data(file_to_get=csv_location, data_type="csv")
