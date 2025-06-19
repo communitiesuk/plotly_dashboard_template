@@ -24,3 +24,5 @@ pydantic
 sqlalchemy==2.0.41
 azure-storage-blob
 sentry-sdk[flask]
+python-dotenv
+bleach
