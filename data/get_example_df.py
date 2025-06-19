@@ -19,4 +19,3 @@ def get_examople_df() -> pl.DataFrame:
             f"Housing supply summary data '{csv_location}' failed to load."
         )
     return dataframe
-
