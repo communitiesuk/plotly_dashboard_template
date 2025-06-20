@@ -101,18 +101,38 @@ The `.github` folder contains a range of workflows that may be useful in a new p
 - `check-before-merging.yml` runs the Python formatter, linter and tests on each pull request. It is advised that Github is configured so that PRs can't be merged unless these pass.
 - `dependabot-pr-merge.yml` approves and merges PRs created by dependabot that are minor or patch changes to the current version of a package specified in `requirements.txt`. 
 
+# Access and update data and text
+## Locally
 
-## Customisation 
+If you want to refresh any data files or text files for development purposes, run the refresh_local.py file that will by default replace all local data files with the latest from CDS, but will not replace local text files. 
 
-### Adding figure to dashboard
-1.  Create figure function for specific chart type and save in figure folder on dashboard file
-1.  Set a variable equal to the figure function and pass in the necessary parameters
-1.  In order to return a graph, set a new variable and pass in dcc.Graph(with the id of your new figure)
+Command line arguments can be passed in to alter the default behaviour: `--force_data_refresh <True|False>` and `--force_text_refresh <True|False>`
+
+This command will NOT push any changes into blob storage, it will only refresh the local files.
+
+## Blob
+### Prerequisites:
+
+Create a .env file in the root directory of your project. Copy the contents of the .env.example file into the .env file and update variables accordingly
+
+### To update the data in blob storage accounts:
+
+In order to push files to blob storage, files will need to exist locally. A refresh of this data can be done at the point of running the ```pr_actions.py```. 
+The script uses the ```data_query_classes.py``` list of queries to update local data files, and then run integration and data tests against the data. Only if all the tests pass are updated files uploaded to the dev, tst and prd blob storage accounts. Each local file will be read into the script and have a hashing function applied to it to generate a unique code for the content of the file, which is compared to the hash of the data file in the blob - if these are different the data file is uploaded with a new version.
+Once the files have been uploaded, a json file ```mapping.json``` for use in Azure is created to create a mapping between the file and where it exists in the blob container. This json file is used when getting a data file from the blob container. Finally the script will ask for Sentry version and Devops message, to allow for automated deployment to Azure once merged to GitHub main branch.
+
+```bash
+python pr_actions.py
 ```
-barchart = bar_chart(df, "Category", "Value", color="Category")
-barchart_dash = dcc.Graph(id="example bar chart", responsive=True, figure=barchart)
-dashboard_content = [card(barchart_dash)]
-```
+
+### Automated data updates to blob storage accounts:
+
+At 9:30am `cds_to_all_blobs_azure.bat` is ran as part of the data engineer's end to end data update process. This checks out the code deployed to each Azure environment (dev, tst and prd), and refreshes the data, and if data and integration tests pass the new data is uploaded to the environment's blob, with the name matching what is in the ```mapping.json``` - this new version has the same filename as the previous version but relates to the versions stored within the blob. All `get_data` functions are decorated with `@track_cache`, and if a newer version of data exists in the blob since it was last accessed, it clears the cache so new data is displayed on the front end.
+
+### Further information
+
+Go to the [Plotly Dashboards wiki - Storing and retrieving data from blob storage](https://github.com/communitiesuk/plotly_dashboard_docs/wiki/Deployment-to-D4I#storing-and-retrieving-data-from-blob-storage) section.
+
 
 ## Development
 
@@ -139,3 +159,11 @@ The linter checks for basic logic errors and bugs. Linting reports rule violatio
 ```bash
 pylint <Dashboard name>
 ```
+
+## Deployment to azure
+
+Once set up, deployment to Azure is triggered by changes to the `Deployment_Run.txt` file in the devops folder which occur when running `python pr_actions.py`.
+
+### Setting up automatic Azure deployment
+
+Uncomment lines 7-13 in `.github/workflows/Azure_Devops.yml`.
