@@ -1,0 +1,72 @@
+# This is a basic workflow to allow the copy of files between Github and Azure Devops
+
+name: Pushing Code to Azure
+
+# Controls when the workflow will run
+#UPDATE uncomment lines 7-13 to allows automatic deployment to azure
+# on:
+#   # Triggers the workflow on push or pull request events but only for the "main" branch. Can be changed if the trigger needs to occur based on a different branch.
+#   push:
+#     branches:
+#     - main
+#     paths:
+#     - devops/**
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  sync_from_git_to_azure:
+    runs-on: ubuntu-latest
+    # Setting the environment variables that will be passed through as secrets so they are not visible on rn.
+    env:
+      AZUREPAT: ${{ secrets.AZUREPAT }}
+      AZUSERNAME: ${{ secrets.AZUSERNAME }}
+      AZUSEREMAIL: ${{ secrets.AZUSEREMAIL }}
+      AZORG: ${{ secrets.AZORG }}
+      AZBRANCH: ${{ secrets.AZBRANCH }}
+      AZPROJECT: ${{ secrets.AZPROJECT }}
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v4
+
+      # Clones the Devops Repository from your specified project so we have an area to copy the Github Repository too.
+      - name: Clone to Devops Repo
+        run: |
+          cd ..
+          mkdir devopsmigration
+          cd devopsmigration
+          GIT_CMD_REPOSITORY="https://$AZUSERNAME:$AZUREPAT@dev.azure.com/$AZORG/$AZPROJECT/_git/$AZPROJECT"
+          git clone -b $AZBRANCH $GIT_CMD_REPOSITORY
+
+      # Keeps all the necessary files from the devops repository
+      - name: Keep Devops Files
+        run: |
+          cd ../devopsmigration/$AZPROJECT/
+          chmod +x copy_files.sh
+          ./copy_files.sh
+          cd ..
+          chmod +x remove_files.sh
+          ./remove_files.sh $AZPROJECT
+          cd $AZPROJECT/
+          chmod +x clean_up_files.sh
+          ./clean_up_files.sh
+        shell: bash
+
+      # Copies all the files excluding the .git folder and data_sources_scraping folder from the Github Repository to the Azure Devops Repository in the local file system.
+      - name: Copy Files from Github to Azure Devops Repo
+        run: |
+          rsync -rv --exclude '.git' --exclude 'data_sources_scraping/' * ../devopsmigration/$AZPROJECT/
+
+      # Configure the Azure user to enable the push and commit of the code to the Azure Devops repository.
+      - name: Configure Azure Repo User
+        run: |
+          cd ../devopsmigration/$AZPROJECT
+          git config --global user.email "$AZUSEREMAIL"
+          git config --global user.name "$AZUSERNAME"
+
+      # Commit and push the code changes to the Azure Devops repository
+      - name: Commit and Push to azure
+        run: |
+          cd ../devopsmigration/$AZPROJECT
+          git add .
+          git commit -m "Push data from Github to Azure Devops"
+          git push
