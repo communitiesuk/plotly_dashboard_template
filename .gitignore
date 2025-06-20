@@ -142,3 +142,6 @@ tests/**/snapshots_fail**
 /data/**/*.csv
 /data/**/*.geojson
 /data/**/*.json
+
+# Dashboard text html files
+updating_dashboard_text/text/
