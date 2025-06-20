@@ -26,4 +26,4 @@ azure-storage-blob
 sentry-sdk[flask]
 python-dotenv
 bleach
-kaleido==0.2.1
+kaleido==1.0.0
