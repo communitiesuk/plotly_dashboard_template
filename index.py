@@ -98,8 +98,9 @@ all_filters = ["example_dropdown"]
 )
 def display_page(pathname, query_string):
     """Show the user the correct dashboard for the given path"""
-    if os.environ.get("DFI_TEST_PLATFORM") == "azure":
-        ClearCachedData()()
+    #UPDATE uncomment when setting up caching
+    # if os.environ.get("DFI_TEST_PLATFORM") == "azure":
+    #     ClearCachedData()()
     try:
         dashboard = dashboards.get_dashboard_from_pathname(pathname)
 
