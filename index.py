@@ -13,7 +13,6 @@ from gov_uk_dashboards.components.dash.phase_banner import phase_banner_with_fee
 from gov_uk_dashboards.components.dash.footer import footer
 from gov_uk_dashboards.components.dash.side_navbar import side_navbar
 from gov_uk_dashboards.components.dash.header import header
-from clear_cached_data import ClearCachedData
 from constants import ACCESSIBILITY
 
 from app import app
