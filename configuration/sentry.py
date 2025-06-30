@@ -1,5 +1,6 @@
 """Module for configuring sentry"""
-#UPDATE uncomment when setting up sentry
+
+# UPDATE uncomment when setting up sentry
 # import os
 
 # import sentry_sdk

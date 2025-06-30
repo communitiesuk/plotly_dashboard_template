@@ -9,7 +9,8 @@ from gov_uk_dashboards.lib.logging import configure_logging
 from gov_uk_dashboards.template import read_template
 from configuration import sentry
 from http_headers import setup_application_http_response_headers
-#UPDATE uncomment when setting up sentry
+
+# UPDATE uncomment when setting up sentry
 # if os.environ.get("STAGE") == "production":
 #     sentry.configure_sentry()
 configure_logging()
