@@ -9,7 +9,7 @@ A template repository for creating data dashboards with Plotly.
 
 1. Choose a name for the repository to house your code. Please note this name should conform to [snake case (e.g. example_data_dashboard)](https://betterprogramming.pub/string-case-styles-camel-pascal-snake-and-kebab-case-981407998841) to avoid annoying errors later!
 1. Create a new repository to house your dashboard from this template, instructions can be found [here](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template). **Do not overwrite this template repository.**
-1. Update code with appropriate names everywhere `#UPDATE` can be found in template. 
+1. Update code with appropriate names everywhere `#UPDATE` and `# UPDATE` can be found in template. 
 
 ### Configuring GitHub policies
 By default, GitHub  does not apply any branch protection policies to newly created repositories. We use these policies to enforce things like: Requiring pull requests to commit changes into the main branch, requiring any comments on pull requests to be resolved and requiring status checks to pass before pull requests can be merged.
@@ -167,3 +167,73 @@ Once set up, deployment to Azure is triggered by changes to the `Deployment_Run.
 ### Setting up automatic Azure deployment
 
 Uncomment lines 7-13 in `.github/workflows/Azure_Devops.yml`.
+
+## Tests
+
+The Dash tests within the /tests/dashboards folder have their own data files
+stored within /tests/data.
+
+To view the dashboard using that data, run the dashboard using `python run.py --test-data`.
+
+### Test Coverage
+Python has tools that allow us to check how much of our codebase is covered with tests. The tool we use is called [Coverage](https://coverage.readthedocs.io/en/6.4.3/) that provides both an analysis of our code coverage levels, and produces a html page to allow easy viewing of the results. 
+When running the code coverage tools, we want to exclude any tests in the dashboards folder. These tests start the app using an in-memory server and so can skew the code coverage results 
+
+This can be checked locally by running the below commands in order
+- `coverage run -m pytest --headless tests/unit`
+- `coverage html`
+ 
+A large number of files will be created in the `htmlcov` folder, opening the `index.html` file will provide the summary of the code coverage results. Each file can be viewed in more detail to see what sections of that file are missing associated unit test cases.  
+
+### Visual regression testing
+We use a combination of [playwright](https://playwright.dev/python/) and [pixelmatch](https://github.com/mapbox/pixelmatch) for ensuring we haven't introduced any bugs in our dashboards. Playwright is used to generate a screenshot of a dashboard and save it to .png file, then pixelmatch takes over and does a pixel by pixel comparison to check if there are any differences between the current version of the dashboard and the previous version.
+
+We currently only run the visual regression tests in Github Actions, as we found that the tests did not run reliably on Windows machines. For cases where you still wish to run the tests locally, see the 'Running the visual tests locally' section below.
+
+#### Process for updating snapshots
+The saved snapshots are automatically updated when there are modifications to the visuals of the dashboards.
+
+The recommended process for checking changes to the snapshots is as follows:
+1. Create a PR as you would usually.
+1. If there are visual changes, a comment will be posted on the PR saying that the snapshots have been updated but warning to check that there are only expected changes.
+1. Go to the summary of the Github Action by clicking the link in the comment.
+1. Download the failed snapshots by opening the `snapshots_failure` folder in the Artifacts section at the bottom of the Github Action summary.
+1. For each test in the snapshots_failure folder, view the `actual.png` (the new version), `expected.png` (previous version of snapshot) and `diff.png` (the difference between the two snapshots).
+1. If there are unexpected changes, you will need to pull down the new snapshots pushed to the branch before you make more commits. 
+1. If you are happy with the changes, you need to pull down the changes locally and then run the following commands in your terminal:
+    - ```git commit --allow-empty -m "Trigger Build"```
+    - ```git push```<br>
+    This will run the checks again to allow the PR to be merged (this is needed as although the Action pushes changes to the branch, it does not force a new workflow run).
+            
+#### Running the visual tests locally
+**Warning:** Tests will fail locally when comparing to snapshots generated in Github Actions.  
+
+While the tests do not run reliably on Windows machines, running them locally may be useful for setting up the folder structure when creating new tests or for debugging purposes. 
+
+To run the tests locally, your conda environment will need to be up to date and the first time you will need to run the command `playwright install` to install the chromium headless runner. Once this command has been run, ensure you restart the DAP environment.
+
+To run the visual tests, run the command:
+- `python -u -m pytest --headless tests/visual`
+
+To update the snapshots, run the command:
+- `python -u -m pytest --headless --update-snapshots tests/visual`
+
+This will generate new `expected.png` images in the `visual/snapshots` folder. Note - while running tests with these snapshots may pass, they will fail in Github Actions due to differences in environments.
+
+You can also add the `--fail-fast` flag when running the tests, this causes a test to fail immediately on finding a pixel mismatch, instead of comparing the entire page and highlighting all pixel differences. The downside of using this flag is that the diff image only displays up to the first difference between the pages.
+
+#### Accessibility checklist 
+
+When creating accessible code, it is important to consider accessibility guidelines and standards, such as the Web Content Accessibility Guidelines (WCAG) 2.1.  
+
+Some key aspects to keep in mind include: 
+
+Alternative text: Providing descriptive alternative text for images and other non-text content to make it accessible to screen readers. 
+
+Semantic HTML: Use appropriate HTML elements, such as headings, lists, and tables, to convey meaning. For example it is recommended to use ordered lists or unordered lists rather than list items for accessibility because they provide a semantic structure to the content and make it easier for assistive technologies to understand and interpret. 
+
+Keyboard navigation: Ensure that all functionality on the page can be operated using only the keyboard. 
+
+Screen reader compatibility: Making sure that screen readers can access and interpret the page correctly. 
+
+Colour contrast: Using sufficient colour contrast between text and background to make the content legible for users with low vision. 
