@@ -13,7 +13,6 @@ from gov_uk_dashboards.components.dash.phase_banner import phase_banner_with_fee
 from gov_uk_dashboards.components.dash.footer import footer
 from gov_uk_dashboards.components.dash.side_navbar import side_navbar
 from gov_uk_dashboards.components.dash.header import header
-from clear_cached_data import ClearCachedData
 from constants import ACCESSIBILITY
 
 from app import app
@@ -98,8 +97,9 @@ all_filters = ["example_dropdown"]
 )
 def display_page(pathname, query_string):
     """Show the user the correct dashboard for the given path"""
-    if os.environ.get("DFI_TEST_PLATFORM") == "azure":
-        ClearCachedData()()
+    # UPDATE uncomment when setting up caching
+    # if os.environ.get("DFI_TEST_PLATFORM") == "azure":
+    #     ClearCachedData()()
     try:
         dashboard = dashboards.get_dashboard_from_pathname(pathname)
 
