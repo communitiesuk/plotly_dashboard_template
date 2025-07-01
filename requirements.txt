@@ -16,7 +16,7 @@ chromedriver-autoinstaller
 playwright
 pytest-playwright
 pixelmatch
-pillow~=11.2
+pillow~=11.3
 snakeviz
 werkzeug
 python-dateutil>=2.8.0
