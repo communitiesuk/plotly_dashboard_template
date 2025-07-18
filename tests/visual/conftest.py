@@ -9,6 +9,7 @@ from tests.plugins import (
     assert_snapshot_matches_baseline,
     assert_valid_snapshot,
     chromedriver,
+    cleanup_dash_duo_driver,
 )
 
 # pylint: enable=unused-import

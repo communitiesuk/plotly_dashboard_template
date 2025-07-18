@@ -7,6 +7,7 @@ from typing import Callable, Any, Optional
 from time import sleep
 import chromedriver_autoinstaller as chromedriver
 from playwright.sync_api import Page
+from selenium.common.exceptions import WebDriverException
 from PIL import Image, ImageDraw, ImageFont
 import pytest
 
@@ -123,6 +124,17 @@ def get_dashboard_utils(dash_duo):
     Register the test utils as a pytest fixture
     """
     return DashboardTestUtils(dash_duo)
+
+
+@pytest.fixture(autouse=True)
+def cleanup_dash_duo_driver(dash_duo):
+    """Quit dash duo after use in test"""
+    yield
+    if dash_duo.driver and dash_duo.driver.service.is_connectable():
+        try:
+            dash_duo.driver.quit()
+        except WebDriverException:
+            pass
 
 
 @pytest.fixture
