@@ -7,6 +7,7 @@ from tests.plugins import (
     setup_proxy_for_browser_tests,
     get_dashboard_utils,
     chromedriver,
+    cleanup_dash_duo_driver,
 )
 
 # pylint: enable=unused-import
