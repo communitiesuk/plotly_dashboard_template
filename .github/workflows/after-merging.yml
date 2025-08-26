@@ -22,7 +22,7 @@ jobs:
         shell: bash -l {0}
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: Cypress run
         uses: cypress-io/github-action@v6
         with:
