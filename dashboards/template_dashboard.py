@@ -84,12 +84,16 @@ def update_example_commentary(
     # pylint: disable = unused-argument
     if not local_authority_code_for_dropdown_selection:
         return format_visualisation_commentary("No authority selected.")
+
+    selected_row = df.filter(
+        pl.col("LA_code") == local_authority_code_for_dropdown_selection
+    )
+    la_name = selected_row.select("LA_name").item()
+
     # create authority object based on selected code from dropdown and the corresponding name
+
     selected_authority = LocalAuthority(
-        local_authority_code_for_dropdown_selection,
-        df[df["LA_code"] == local_authority_code_for_dropdown_selection][
-            "LA_name"
-        ].iloc[0],
+        local_authority_code_for_dropdown_selection, la_name
     )
     return format_visualisation_commentary(
         f"{selected_authority.name} ({selected_authority.ons_code}) selected."
