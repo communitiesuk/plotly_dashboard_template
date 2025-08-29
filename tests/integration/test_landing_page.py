@@ -2,7 +2,10 @@
 
 from dash.testing.composite import DashComposite
 
-from tests.integration.dashboard_test_utils import DashboardTestUtils
+from tests.integration.dashboard_test_utils import (
+    DashboardTestUtils,
+    run_smoke_test_for_page,
+)
 
 
 def test_landing_page_loads_without_error(
@@ -10,7 +13,4 @@ def test_landing_page_loads_without_error(
 ):
     """A smoke test to make sure the dashboard loads and has no error messages (exceptions)"""
 
-    dashboard_utils.start_app_and_visit_page("/")
-    dash_duo.wait_for_element("#main-content")
-
-    assert dash_duo.get_logs() in ([], None), "browser console should contain no error"
+    run_smoke_test_for_page(dash_duo, dashboard_utils, "/")

@@ -12,12 +12,14 @@ from gov_uk_dashboards.components.dash import (
     heading2,
 )
 
+from constants import ACCESSIBILITY_PAGE_NAME
+
 EMAIL_ADDRESS = "team_email@org.domain"
 
 
 def accessibility_statement() -> list[Component]:
     "Function to create page to assist accessibility info for user"
-    return main_content(guidance_text())
+    return main_content(guidance_text(), ACCESSIBILITY_PAGE_NAME)
 
 
 def guidance_text() -> list[Component]:
@@ -28,7 +30,7 @@ def guidance_text() -> list[Component]:
         list[Component]: A list of dash components that make up the guidance text
     """
     return [
-        heading1("Accessibility statement"),
+        heading1(ACCESSIBILITY_PAGE_NAME),
         paragraph("*Insert accessibility statement here*"),
         paragraph(
             html.A(
