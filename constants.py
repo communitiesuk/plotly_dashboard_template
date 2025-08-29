@@ -4,7 +4,10 @@ import os
 
 
 # PATHNAMES
-ACCESSIBILITY = "/accessibility"
+ACCESSIBILITY_PATHNAME = "/accessibility"
+
+# PAGENAMES
+ACCESSIBILITY_PAGE_NAME = "Accessibility statement"
 
 BLOB_FILE_PATH = "blob_file_path"
 BLOB_HASH_KEY = "blob_hash_key"

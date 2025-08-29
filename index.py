@@ -13,7 +13,7 @@ from gov_uk_dashboards.components.dash.phase_banner import phase_banner_with_fee
 from gov_uk_dashboards.components.dash.footer import footer
 from gov_uk_dashboards.components.dash.side_navbar import side_navbar
 from gov_uk_dashboards.components.dash.header import header
-from constants import ACCESSIBILITY
+from constants import ACCESSIBILITY_PATHNAME, ACCESSIBILITY_PAGE_NAME
 
 from app import app
 from dashboards.template_dashboard import template_dashboard
@@ -61,7 +61,7 @@ app.layout = html.Div(
             className="govuk-width-container",
             **{"aria-live": "polite", "aria-atomic": "true"},
         ),
-        footer([dcc.Link("Accessibility statement", href="/accessibility")]),
+        footer([dcc.Link(ACCESSIBILITY_PAGE_NAME, href=ACCESSIBILITY_PATHNAME)]),
     ]
 )
 dashboards = DashboardStorageAndLookup()
@@ -75,8 +75,8 @@ dashboards.add_dashboards(
             filters=["example_dropdown"],
         ),
         DashboardPage(
-            title="Accessibility Statement",
-            pathname=ACCESSIBILITY,
+            title=ACCESSIBILITY_PAGE_NAME,
+            pathname=ACCESSIBILITY_PATHNAME,
             function_to_call=accessibility_statement,
             filters=[],
             hide_from_menu=True,

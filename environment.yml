@@ -1,6 +1,6 @@
 name: plotly_dashboard_template # Replace with your dashboard name #UPDATE
 dependencies:
-  - python=3.9
+  - python=3.12
   - pip
   - pip:
     - -r requirements.txt 
