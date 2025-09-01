@@ -52,4 +52,4 @@ if __name__ == "__main__":
             profile_dir=PROF_DIR,
         )
 
-    app.run_server(host=HOST_REQUIRED_BY_DAP, port=PORT_REQUIRED_BY_DAP, debug=True)
+    app.run(host=HOST_REQUIRED_BY_DAP, port=PORT_REQUIRED_BY_DAP, debug=True)

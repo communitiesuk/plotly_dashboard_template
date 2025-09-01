@@ -69,6 +69,7 @@ def template_dashboard(example_dropdown="option 1"):
             ),
             dcc.Download(id="download-data-as-csv"),
         ],
+        "Dashboard 1 Page Title",
     )
 
 

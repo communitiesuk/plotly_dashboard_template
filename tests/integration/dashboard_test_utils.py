@@ -49,3 +49,17 @@ class DashboardTestUtils:
         """
         option_selector = selector + "__option--" + str(index)
         return self.dash_duo.find_element(option_selector)
+
+
+def run_smoke_test_for_page(
+    dash_duo: DashComposite,
+    dashboard_utils: DashboardTestUtils,
+    pathname: str,
+    wait_selector: str = '[id^="main-content"]',
+    timeout: int = 30,
+):
+    """Reusable smoke test to check that a page loads without browser console errors."""
+    dashboard_utils.start_app_and_visit_page(pathname)
+    dash_duo.wait_for_element(wait_selector, timeout=timeout)
+
+    assert dash_duo.get_logs() in ([], None), "browser console should contain no error"
