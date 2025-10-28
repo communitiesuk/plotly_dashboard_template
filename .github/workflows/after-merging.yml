@@ -32,19 +32,19 @@ jobs:
         env:
           CYPRESS_BASE_URL: ${{ secrets.CYPRESS_BASE_URL }}
       - name: Upload HTML reports
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         if: failure()
         with:
           name: cypress-reports
           path: ./e2e/cypress/results/*.html
       - name: Upload screenshots
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         if: failure()
         with:
           name: cypress-screenshots
           path: ./e2e/cypress/screenshots
       - name: Upload videos
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         if: always()
         with:
           name: cypress-videos
