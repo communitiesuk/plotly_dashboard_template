@@ -26,7 +26,7 @@ jobs:
       AZPROJECT: ${{ secrets.AZPROJECT }}
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
 
       # Clones the Devops Repository from your specified project so we have an area to copy the Github Repository too.
       - name: Clone to Devops Repo
