@@ -3,7 +3,7 @@
 plotly~=6.5.0
 polars~=1.35.2
 dash~=3.3.0
-pytest~=9.0.1
+pytest~=9.0.2
 pylint~=4.0.4
 black~=25.11.0
 black[jupyter]~=25.11.0
