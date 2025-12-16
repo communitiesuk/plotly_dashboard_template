@@ -90,7 +90,7 @@ jobs:
             echo "snapshots-updated=false" >> $GITHUB_ENV
           fi
       - name: Upload snapshot failures folder
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         if: env.snapshots-updated == 'true'
         with:
           name: snapshots_failure_folder
