@@ -2,5 +2,4 @@
 
 from data.data_queries.example_data_query import ExampleDataQuery
 
-
 data_query_classes = [ExampleDataQuery]
