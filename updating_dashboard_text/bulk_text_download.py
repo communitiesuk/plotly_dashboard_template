@@ -10,7 +10,6 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from constants import FOLDER_CONTAINING_HTML_FILES
 
-
 load_dotenv(override=True)
 
 FOLDER_CONTAINING_WORD_DOCUMENTS = os.getenv("PATH_TO_WORD_DOCUMENT")

@@ -13,7 +13,6 @@ from update_mapping_and_upload_to_all_blobs import (
     update_mapping_and_upload_to_all_blobs_if_file_updated,
 )
 
-
 load_dotenv(override=True)
 
 

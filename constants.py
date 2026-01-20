@@ -2,7 +2,6 @@
 
 import os
 
-
 # PATHNAMES
 ACCESSIBILITY_PATHNAME = "/accessibility"
 
