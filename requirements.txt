@@ -2,7 +2,7 @@
 # Version is hardcoded to ensure uniformity no matter the platform.
 plotly~=6.5.2
 polars~=1.37.1
-dash~=3.3.0
+dash~=3.4.0
 pytest~=9.0.2
 pylint~=4.0.4
 black~=26.1.0
