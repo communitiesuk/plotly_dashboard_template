@@ -3,9 +3,11 @@
 import os
 from io import BytesIO
 from pathlib import Path
+import shutil
 from typing import Callable, Any, Optional
 from time import sleep
 import chromedriver_autoinstaller as chromedriver
+from dotenv import load_dotenv
 from playwright.sync_api import Page
 from selenium.common.exceptions import WebDriverException
 from PIL import Image, ImageDraw, ImageFont
@@ -96,13 +98,28 @@ def data_tests_folder_location(request):
 @pytest.fixture(scope="session", autouse=True)
 def setup_chromedriver_for_browser_tests():
     """
-    Chrome within the DAP is updated automatically, and so our test suite needs to work across
-    both the latest and previous latest versions of chrome.
-
-    You need a matching version of Chrome Driver for your version of Chrome.
-    This code should install the matching version of Chrome Driver depending on the version of
-    Chrome you have installed in your DAP Workspace.
+    Prefer a pinned chromedriver from CHROMEDRIVER_PATH (e.g. in .env) to avoid
+    runtime downloads (often blocked by corporate proxy). Otherwise, use an
+    already-installed chromedriver on PATH. Only then fallback to chromedriver.install().
     """
+    load_dotenv()
+
+    # 1) Explicit path from .env / env var
+    chromedriver_path = os.getenv("CHROMEDRIVER_PATH")
+    if chromedriver_path:
+        p = Path(chromedriver_path)
+        if not p.exists():
+            raise FileNotFoundError(f"CHROMEDRIVER_PATH does not exist: {p}")
+
+        # Ensure later webdriver.Chrome() can find it (expects folder on PATH)
+        os.environ["PATH"] = str(p.parent) + os.pathsep + os.environ.get("PATH", "")
+        return
+
+    # 2) Already on PATH (e.g. conda-forge chromedriver)
+    if shutil.which("chromedriver"):
+        return
+
+    # 3) Last resort: installer (may be blocked behind proxy)
     chromedriver.install()
 
 
