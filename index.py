@@ -5,7 +5,7 @@ Create paths to serve different dashboards.  Add new paths in the display_page c
 import logging
 import os
 
-from dash import dcc, html, Input, Output, State
+from dash import dcc, html, Input, Output, State, ClientsideFunction
 from gov_uk_dashboards.components.dash.filter_panel import hidden_filter
 from gov_uk_dashboards.components.dash.banners import message_banner
 from gov_uk_dashboards.components.dash.dashboard_container import dashboard_container
@@ -13,7 +13,7 @@ from gov_uk_dashboards.components.dash.phase_banner import phase_banner_with_fee
 from gov_uk_dashboards.components.dash.footer import footer
 from gov_uk_dashboards.components.dash.side_navbar import side_navbar
 from gov_uk_dashboards.components.dash.header import header
-from constants import ACCESSIBILITY_PATHNAME, ACCESSIBILITY_PAGE_NAME
+from constants import ACCESSIBILITY_PATHNAME, ACCESSIBILITY_PAGE_NAME, APP_NAME
 
 from app import app
 from dashboards.template_dashboard import template_dashboard
@@ -23,10 +23,13 @@ from lib.dashboard_storage_and_lookup import DashboardStorageAndLookup
 from lib.generate_navbar import generate_side_navbar
 from lib.url import selected_filters, dict_to_query_string
 
-app.title = "Template Dashboard"  # UPDATE
+app.title = APP_NAME  # UPDATE constant
 
 app.layout = html.Div(
     [
+        dcc.Store(
+            id="page-title-store"
+        ),  # used for updating what is displayed in tab & when pasting links,
         html.A(
             "Skip to main content",
             href="#main-content",
@@ -92,6 +95,7 @@ all_filters = ["example_dropdown"]
     Output("page-content", "children"),
     Output("nav-section", "children"),
     Output("feedback-link", "href"),
+    Output("page-title-store", "data"),
     Input("url", "pathname"),
     State("url", "search"),
 )
@@ -102,6 +106,9 @@ def display_page(pathname, query_string):
     #     ClearCachedData()()
     try:
         dashboard = dashboards.get_dashboard_from_pathname(pathname)
+
+        page_title = dashboard.title
+        full_title = APP_NAME + " - " + page_title
 
         hidden_filters = create_missing_filters_for_dashboard(dashboard)
 
@@ -124,11 +131,14 @@ def display_page(pathname, query_string):
             "mailto:<contact e-mail address>?"  # #UPDATE Add an e-mail address
             # for people to provide feedback.
             f"subject=Feedback on {app.title} - {dashboard.title}",
+            full_title,
         )
 
     except Exception as exception:
         if os.environ.get("STAGE") == "production":
             dashboard = dashboards.error_dashboard
+            page_title = dashboard.title
+            full_title = APP_NAME + "-" + page_title
             logging.exception(exception)
             return (
                 dashboard.protective_marking,
@@ -137,6 +147,7 @@ def display_page(pathname, query_string):
                 "mailto:<contact e-mail address>?"  # #UPDATE Add an e-mail address
                 # for people to provide feedback.
                 f"subject=Feedback on {app.title} - {dashboard.title}",
+                full_title,
             )
 
         raise exception
@@ -185,3 +196,12 @@ def update_url(
     nav_bar = generate_side_navbar(dashboards, pathname, query_string)
 
     return query_string, nav_bar, nav_bar
+
+
+# updates what is displayed in tab title and when pasting links
+app.clientside_callback(
+    ClientsideFunction(namespace="utils", function_name="setTitle"),
+    Output("page-title-store", "modified_timestamp"),  # dummy output to trigger a write
+    Input("page-title-store", "data"),
+    prevent_initial_call=False,
+)
