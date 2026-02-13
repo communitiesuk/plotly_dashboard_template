@@ -2,6 +2,8 @@
 
 import os
 
+APP_NAME = "Template Dashboard"
+
 # PATHNAMES
 ACCESSIBILITY_PATHNAME = "/accessibility"
 
