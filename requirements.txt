@@ -25,4 +25,4 @@ azure-storage-blob~=12.28.0
 sentry-sdk[flask]~=2.53.0
 python-dotenv~=1.2.1
 bleach~=6.3.0
-kaleido~=0.2.1
+kaleido~=1.2.0
