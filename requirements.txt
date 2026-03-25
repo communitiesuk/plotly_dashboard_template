@@ -2,7 +2,7 @@
 # Version is hardcoded to ensure uniformity no matter the platform.
 plotly~=6.6.0
 polars~=1.39.3
-dash~=3.4.0
+dash~=4.1.0
 pytest~=9.0.2
 pylint~=4.0.5
 black~=26.3.1
@@ -11,7 +11,7 @@ pyodbc~=5.3.0
 numpy~=2.4.3
 gov-uk-dashboards~=30.0.0
 uk-gov-dash-components~=2.1.0
-dash[testing]~=3.4.0
+dash[testing]~=4.1.0
 chromedriver-autoinstaller~=0.6.4
 playwright~=1.58.0
 pytest-playwright~=0.7.2
