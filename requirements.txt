@@ -1,6 +1,6 @@
 # Latest version of plotly can be found at https://github.com/plotly/plotly.py/releases .
 # Version is hardcoded to ensure uniformity no matter the platform.
-plotly~=6.8.0
+plotly~=6.9.0
 polars~=1.43.0
 dash~=4.4.1
 pytest~=9.1.1
